@@ -1,13 +1,13 @@
-var apiKey = "AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0"
-var apiCall = "https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=" + apiKey + "&part=snippet,contentDetails,statistics";
-var apiUserName = "https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername=GoogleDevelopers&key=" + apiKey;
+var fetchURL = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0&part=snippet,contentDetails,statistics,status`
 
 
+// async function getData() {
+//     let current = await (await fetch(fetchURL)).json();//wait for the data and wait for the json
 
-fetch(apiUserName)
-    .then(function(response) {
-        return response.json()
-    })
-    .then(function(data) {
-        console.log(data)
-    })
+//     console.log(current);
+
+// }
+
+fetch(fetchURL).then(data => data.json()).then(data => console.log(data));
+
+//getData();
