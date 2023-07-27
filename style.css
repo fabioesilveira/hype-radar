@@ -1,0 +1,29 @@
+#mainCards {
+    /* display: flex;
+    /*justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px; */
+}
+
+.card {
+    margin: 10px;
+    color: blue;
+}
+
+h1{
+    text-align: center;
+    font-size: 35px;
+    margin: 25px;
+    font-family: "press start 2p", "consolas", "sans-serif";
+    color: white;
+}
+.radar{
+    background-color: blue;
+    border: 2px solid;
+    position: center;
+    left: 10vw;
+    top: 7vh;
+    z-index: 0;
+    margin-bottom: 30px;
+}
+
