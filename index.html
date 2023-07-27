@@ -15,99 +15,196 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css" />
+
     <title>Hype-Radar</title>
   </head>
 
-  <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-        </a>
-    
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
+<body>
+<header>
+  <nav class="navbar is-transparent">
+        <img src="assets/images/radar2.png" alt="Bulma: a modern CSS framework based on Flexbox" width="65" height="62">
+      </a>
+      <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-    
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item">
-            Home
+    </div>
+    <div id="navbarExampleTransparentExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" >
+          Home
+        </a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" >
+            Menu
           </a>
-    
-          <a class="navbar-item">
-            Reports
-          </a>
-    
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-              More
+          <div class="navbar-dropdown is-boxed">
+            <a class="navbar-item" href="">
+              Search History
             </a>
-    
-            <div class="navbar-dropdown">
-              <a class="navbar-item">
-                Comments
-              </a>
-              <a class="navbar-item">
-                Charity Tracker
-              </a>
-              <hr class="navbar-divider">
-              <a class="navbar-item">
-                Report an issue
-              </a>
-            </div>
-          </div>
-        </div>
-    
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-primary">
-                <strong>Sign up</strong>
-              </a>
-              <a class="button is-light">
-                Log in
-              </a>
-            </div>
+            <a class="navbar-item" href="">
+              Trending Videos
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item" href="https://www.youtube.com/">
+              Youtube
+            </a>
           </div>
         </div>
       </div>
-    </nav>
+  </nav>
+  <div class="radar">
+    <h1>Hype Radar</h1>
+  </div>
+</header>
 
-    <div class="card">
-      <div class="card-content">
-        <div class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-            </figure>
+    <div id = "mainCards">
+      <div class="cardYT card">
+        <div class="card-content">
+          <div class="field">
+            <label class="label">Search YouTube Users: </label>
+            <div class="control">
+              <input id = "userInputYT" class="input" type="text" placeholder="Enter user..">
+            </div>
           </div>
-          <div class="media-content">
-            <p class="title is-4">YouTube</p>
-            <p class="subtitle is-6">YouTube Account</p>
+          <hr>
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-52x52">
+                <img id ="avatarYT" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p id = "userNameYT" class="title is-2">YouTube</p>
+              <p class="subtitle is-5">YouTube Account</p>
+            </div>
+          </div>
+        <div class="level is-mobile">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Views</p>
+              <p class="title">3,456</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Uploads</p>
+              <p class="title">123</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Subscribers</p>
+              <p class="title">456K</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Likes</p>
+              <p class="title">789</p>
+            </div>
           </div>
         </div>
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-        </figure>
+        <hr>
+        <div>
+          <p class="title is-4">User's Most Recent Uploads: </p>
+          <div id = "recentUploadsYT">
+            <button class="button is-fullwidth is-light">Video Title</button>
+          </div>
+          <hr>
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">Video Title</p>
+            </div>
+            <div class = "media-right">
+              <button class="button is-link is-light">Link</button>
+            </div>
+          </div>
+          <div id = "videoDataYT" class="level is-mobile">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Views</p>
+                <p class="title">3,456</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Comments</p>
+                <p class="title">123</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Likes</p>
+                <p class="title">789</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Time Since Upload</p>
+                <p class="title">1 hr</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div>
-        <div class="content">
-          <p>Views: </p>
-          <p>Likes: </p>
-          <p>Dislikes: </p>
-          <p>Time Since Upload: </p>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>Hype Radar</strong> by <a href="https://github.com/Clkwong3">Clarice Kwong, <a href="https://github.com/fabioesilveira">Fabio Silveira,</a> <a href="https://github.com/kthames">Katherine Thames,</a> <a href="https://github.com/ralstonb9">Ralston Brown,</a> <a href="https://github.com/andrettaj">Andretta Jackson.</a>
+            © 2023
+        </p>
+      </div>
+    </footer>
+
+    <div class = "searchHistoryCards columns">
+      <div id = "searchHistoryTW" class = "column card">
+        <div class = "card-content">
+          <p class="title is-3 has-text-centered">YouTube Search History</p>
+          <div>
+            <button class="button is-fullwidth is-light">Username</button>
+          </div>
+          <div>
+            <button class="button is-fullwidth is-light">Reset History</button>
+          </div>
         </div>
       </div>
     </div>
 
+    <div class = "trendingVideosCards columns">
+      <div id = "trendingYT" class = "column card">
+        <div class = "card-content">
+          <p class="title is-3 has-text-centered">YouTube's Top 10 Trending Videos</p>
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">Video Title</p>
+            </div>
+            <div class = "media-right">
+              <button class="button is-link is-light">Link</button>
+            </div>
+          </div>        
+        </div>
+      </div>
+    </div>
     
-
-
     <script src="script.js"></script>
   </body>
 </html>
