@@ -118,13 +118,13 @@ async function getUserData(userInput) {
   views.textContent = userData.items[0].statistics.viewCount; // Is there a way to make the number readable?
 
   const upload = document.querySelector("#uploadCount");
-  upload.textContent = userData.items[0].statistics.videoCount;
+  upload.textContent = userData.items[0].statistics.videoCount; // Is there a way to make the number readable?
 
   const followers = document.querySelector("#followers");
-  followers.textContent = userData.items[0].statistics.subscriberCount;
+  followers.textContent = userData.items[0].statistics.subscriberCount; // Is there a way to make the number readable?
 
   const joined = document.querySelector("#joinDate");
-  joined.textContent = userData.items[0].snippet.publishedAt;
+  joined.textContent = userData.items[0].snippet.publishedAt.substring(0, 10); // Format is YYYY-MM-DD
 
   getUserVideoList(userVideos);
 }
