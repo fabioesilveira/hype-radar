@@ -23,6 +23,7 @@
   </head>
 
 <body>
+  <!-- Navigation -->
 <header>
   <nav class="navbar is-transparent">
         <img src="assets/images/radar2.png" alt="Bulma: a modern CSS framework based on Flexbox" width="65" height="62">
@@ -65,6 +66,7 @@
     <div id = "mainCards">
       <div class="cardYT card">
         <div class="card-content">
+          <!-- Search Display -->
           <div class="field">
             <p class="heading">Search YouTube Users</p>
             <form id = "search-form" class="control">
@@ -72,44 +74,49 @@
             </form>
           </div>
           <hr>
+          <!-- Content Display -->
           <div class="media">
+            <!-- Avatar Image -->
             <div class="media-left">
               <figure class="image is-52x52">
                 <img id ="avatarYT" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
               </figure>
             </div>
+            <!-- Account Display -->
             <div class="media-content">
-              <p id = "userNameYT" class="title is-2">YouTube</p>
-              <p class="subtitle is-5">YouTube Account</p>
+              <p id = "userNameYT" class="title is-2">Youtube Name</p>
+              <p id = "account" class="subtitle is-5">YouTube Account</p>
             </div>
           </div>
+        <!-- User Stats -->
         <div class="level is-mobile">
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Views</p>
-              <p class="title">3,456</p>
+              <p id="viewCount" class="title">3,456</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Uploads</p>
-              <p class="title">123</p>
+              <p id="uploadCount" class="title">123</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Subscribers</p>
-              <p class="title">456K</p>
+              <p id="followers" class="title">456K</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">User Since</p>
-              <p class="title">1st January</p>
+              <p id="joinDate" class="title">1st January</p>
             </div>
           </div>
         </div>
         <hr>
+        <!-- User Activities -->
         <div>
           <p class="title is-4">User's Most Recent Uploads: </p>
           <div id = "recentUploadsYT">
@@ -161,6 +168,7 @@
       </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer">
       <div class="content has-text-centered">
         <p>
@@ -170,6 +178,7 @@
       </div>
     </footer>
 
+    <!-- History Display -->
     <div class = "searchHistoryCards columns">
       <div id = "searchHistoryTW" class = "column card">
         <div class = "card-content">
@@ -184,6 +193,7 @@
       </div>
     </div>
 
+    <!-- Top 5 Videos -->
     <div class = "trendingVideosCards columns">
       <div id = "trendingYT" class = "column card">
         <div class = "card-content">
