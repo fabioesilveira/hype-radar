@@ -1,5 +1,9 @@
 var fetchURL = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0&part=snippet,contentDetails,statistics,status`;
 
+var homePage = document.getElementById("mainCards");
+var trendingPage = document.getElementById("trendingPage");
+var historyPage = document.getElementById("searchHistory");
+
 var userVideoList = document.querySelector('#recentUploadsYT');
 
 // Timestamp Fetch
@@ -149,6 +153,21 @@ async function getTrendingData() {
     var videoLink = document.createElement('a');
     var linkButton = document.createElement('button');
 
+    figure.classList.add("image", "is-62x62");
+    var imageLink = 'https://i.ytimg.com/vi/'+ popularData.items[i].id +'/default.jpg'
+    image.setAttribute("src", imageLink);
+    image.setAttribute("alt","Placeholder image");
+
+    title.classList.add("title", "is-4");
+    title.innerHTML = popularData.items[i].snippet.localized.title;
+
+
+    var trendingVideoLink = getVideoLink(popularData.items[i].id);
+    videoLink.setAttribute("href", trendingVideoLink);
+    videoLink.setAttribute("target", "_blank");
+    linkButton.classList.add("button", "is-link", "is-light");
+    linkButton.innerHTML = "Watch the video!";
+
     figure.append(image);
     videoLink.append(linkButton);
 
@@ -162,10 +181,8 @@ async function getTrendingData() {
 }
 
 async function getUserVideoList(userVideos) {
-  var userVideosURl =
-    `https://www.googleapis.com/youtube/v3/search?key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0&channelId=` +
-    userVideos +
-    `&part=snippet,id&order=date&maxResults=20`;
+  
+    var userVideosURl = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0&channelId=` + userVideos + `&part=snippet,id&order=date&maxResults=10`;
 
   let userVideoData = await (await fetch(userVideosURl)).json();
 
@@ -173,7 +190,7 @@ async function getUserVideoList(userVideos) {
 
   userVideoList.innerHTML = ""
 
-  for(let i = 0; i < 20; i++) {
+  for(let i = 0; i < 10; i++) {
     var buttonEl = document.createElement('button');
     buttonEl.classList.add('button','is-light', 'is-fullwidth');
     //buttonEl.setAttribute('type', 'button');
@@ -194,6 +211,7 @@ userVideoList.addEventListener("click", function(event) {
     console.log(idSelected);
 
     var videoLink = getVideoLink(idSelected);
+    var videoData = getVideoData(idSelected);
 
     console.log(videoLink);
 
@@ -220,3 +238,20 @@ function getVideoLink(videoId) {
   return videoLink;
 }
 
+
+async function getVideoData(videoId) {
+
+    var videoDataURL = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=`+ videoId +`&key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0`;
+
+    let videoData = await (await fetch(videoDataURL)).json();
+
+    console.log(videoData);
+
+    var viewCount = document.querySelector("#viewCountVideo");
+    var commentCount = document.querySelector("#uploadCountVideo");
+    var likeCount = document.querySelector("#likesVideo");
+
+    viewCount.textContent = parseInt(videoData.items[0].statistics.viewCount).toLocaleString();
+    commentCount.textContent = parseInt(videoData.items[0].statistics.commentCount).toLocaleString();
+    likeCount.textContent = parseInt(videoData.items[0].statistics.likeCount).toLocaleString();
+}
