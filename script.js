@@ -98,12 +98,33 @@ async function getUserData(userInput) {
     "&key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0";
 
   let userData = await (await fetch(searchByUsername)).json(); //wait for the data and wait for the json
-
   console.log(userData);
 
   var userVideos = userData.items[0].id;
-
   console.log(userVideos);
+
+  // Account Display
+  const avatar = document.querySelector("#avatarYT");
+  avatar.mediaContent = userData.items[0].snippet.thumbnails.default.url;
+
+  const userName = document.querySelector("#userNameYT");
+  userName.textContent = userData.items[0].snippet.title;
+
+  const accountName = document.querySelector("#account");
+  accountName.textContent = userData.items[0].snippet.customUrl;
+
+  // Stats Display
+  const views = document.querySelector("#viewCount");
+  views.textContent = userData.items[0].statistics.viewCount; // Is there a way to make the number readable?
+
+  const upload = document.querySelector("#uploadCount");
+  upload.textContent = userData.items[0].statistics.videoCount;
+
+  const followers = document.querySelector("#followers");
+  followers.textContent = userData.items[0].statistics.subscriberCount;
+
+  const joined = document.querySelector("#joinDate");
+  joined.textContent = userData.items[0].snippet.publishedAt;
 
   getUserVideoList(userVideos);
 }
