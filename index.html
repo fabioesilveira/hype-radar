@@ -36,7 +36,7 @@
     </div>
     <div id="navbarExampleTransparentExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item" >
+        <a id = "homeTab" class="navbar-item" >
           Home
         </a>
         <div class="navbar-item has-dropdown is-hoverable">
@@ -44,14 +44,14 @@
             Menu
           </a>
           <div class="navbar-dropdown is-boxed">
-            <a class="navbar-item" href="">
+            <a id = "searchHistoryTab" class="navbar-item" href="#">
               Search History
             </a>
-            <a class="navbar-item" href="">
+            <a id = "trendingVideosTab" class="navbar-item" href="#">
               Trending Videos
             </a>
             <hr class="navbar-divider">
-            <a class="navbar-item" href="https://www.youtube.com/">
+            <a class="navbar-item" href="https://www.youtube.com/" target = "_blank">
               Youtube
             </a>
           </div>
@@ -138,6 +138,26 @@
                 </a>    
             </div>
           </div>
+          <div class="level is-mobile">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Views</p>
+                <p id="viewCountVideo" class="title">0</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Comments</p>
+                <p id="uploadCountVideo" class="title">0</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Likes</p>
+                <p id="likesVideo" class="title">0</p>
+              </div>
+            </div>
+          </div>
         </div>
         </div>
       </div>
@@ -153,9 +173,9 @@
       </div>
     </footer>
 
-    <!-- History Display -->
+   <!-- History Display -->
     <div class = "searchHistoryCards columns">
-      <div id = "searchHistoryTW" class = "column card">
+      <div id = "searchHistory" class = "column card">
         <div class = "card-content">
           <p class="title is-3 has-text-centered">YouTube Search History</p>
           <div>
@@ -166,16 +186,16 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> 
 
     <!-- Top 5 Videos -->
-    <div class = "trendingVideosCards columns">
+    <div id = "trendingPage" class = "trendingVideosCards columns">
       <div id = "trendingYT" class = "column card">
         <div class = "card-content">
           <p class="title is-3 has-text-centered">YouTube's Top 5 Trending Videos</p>
           <div class = "trendingData">
             <div class="media">
-              <div class="media-left">
+              <!-- <div class="media-left">
                 <figure class="image is-62x62">
                   <img id = "trendingThumbnail" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
                 </figure>
@@ -188,7 +208,7 @@
                     <button class="button is-link is-light">Watch the Video!</button>
                   </a>    
               </div>
-            </div>
+            </div> -->
           </div>     
         </div> 
       </div>
