@@ -1,5 +1,7 @@
 var fetchURL = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0&part=snippet,contentDetails,statistics,status`;
 
+var userVideoList = document.querySelector('#recentUploadsYT');
+
 // Timestamp Fetch
 fetch(fetchURL)
   .then((data) => data.json())
@@ -105,7 +107,7 @@ async function getUserData(userInput) {
 
   // Account Display
   const avatar = document.querySelector("#avatarYT");
-  avatar.mediaContent = userData.items[0].snippet.thumbnails.default.url;
+  avatar.setAttribute("src", userData.items[0].snippet.thumbnails.default.url);
 
   const userName = document.querySelector("#userNameYT");
   userName.textContent = userData.items[0].snippet.title;
@@ -147,7 +149,44 @@ async function getUserVideoList(userVideos) {
   let userVideoData = await (await fetch(userVideosURl)).json();
 
   console.log(userVideoData);
+
+  userVideoList.innerHTML = ""
+
+  for(let i = 0; i < 20; i++) {
+    var buttonEl = document.createElement('button');
+    buttonEl.classList.add('button','is-light', 'is-fullwidth');
+    //buttonEl.setAttribute('type', 'button');
+    buttonEl.textContent = userVideoData.items[i].snippet.title;
+    buttonEl.setAttribute('id', userVideoData.items[i].id.videoId);
+    userVideoList.append(buttonEl);
+  }
+
 }
+
+userVideoList.addEventListener("click", function(event) {
+    event.preventDefault();
+    var element = event.target;
+
+    var videoSelected = element.innerHTML;
+    var idSelected = element.id;
+    console.log(videoSelected);
+    console.log(idSelected);
+
+    var videoLink = getVideoLink(idSelected);
+
+    console.log(videoLink);
+
+    var videoTitle = document.querySelector('#videoTitle');
+    videoTitle.textContent = videoSelected;
+
+    var buttonEl = document.querySelector('#videoLink');
+    buttonEl.setAttribute('href', videoLink);
+    buttonEl.setAttribute("target", "_blank");
+
+    var thumbnailUrl = 'https://i.ytimg.com/vi/'+ idSelected + '/default.jpg';
+    var videoThumbnailUrl = document.querySelector('#videoThumbnail');
+    videoThumbnailUrl.setAttribute("src", thumbnailUrl);
+})
 
 function init() {
   getTrendingData();
@@ -157,6 +196,9 @@ init();
 
 function getVideoLink(videoId) {
   var videoLink = `https://www.youtube.com/watch?v=${videoId}`;
-
   return videoLink;
+}
+
+function printUserData(userVideos) {
+    
 }
