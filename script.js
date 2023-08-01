@@ -52,7 +52,16 @@ fetch(fetchURL)
 
 // }
 
-var searchFormEl = document.querySelector("#search-form");
+// Empty search bar
+const searchBar = document.querySelector("#search-input");
+
+searchBar.addEventListener("keydown", function (event) {
+  // Check if the "Enter" key was pressed (key code 13)
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    searchBar.value = ""; // Clear the input value
+  }
+});
 
 function handleSearchFormSubmit(event) {
   event.preventDefault();
@@ -68,7 +77,6 @@ function handleSearchFormSubmit(event) {
 
   getUserData(userInput);
 }
-
 searchFormEl.addEventListener("submit", handleSearchFormSubmit);
 
 async function getUserData(userInput) {
