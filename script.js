@@ -20,39 +20,19 @@ fetch(fetchURL)
     let description = "";
 
     // The Math
-    if (timelapsed > 60000) {
-      const minutes = timelapsed / 60000;
-      //   console.log("minutes", minutes);
-      timeStorage = minutes;
-      description = "minutes";
-    }
+    const timeUnits = [
+      { unit: "years", divide: 60000 * 60 * 24 * 365 },
+      { unit: "weeks", divide: 60000 * 60 * 24 * 7 },
+      { unit: "days", divide: 60000 * 60 * 24 },
+      { unit: "hours", divide: 60000 * 60 },
+      { unit: "minutes", divide: 60000 },
+    ];
 
-    if (timelapsed > 60000 * 60) {
-      const hours = timelapsed / 60000 / 60;
-      //   console.log("hours", hours);
-      timeStorage = hours;
-      description = "hours";
-    }
-
-    if (timelapsed > 60000 * 60 * 24) {
-      const days = timelapsed / 60000 / 60 / 24;
-      //   console.log("days", days);
-      timeStorage = days;
-      description = "days";
-    }
-
-    if (timelapsed > 60000 * 60 * 24 * 7) {
-      const weeks = timelapsed / 60000 / 60 / 24 / 7;
-      //   console.log("weeks", weeks);
-      timeStorage = weeks;
-      description = "weeks";
-    }
-
-    if (timelapsed > 60000 * 60 * 24 * 365) {
-      const years = timelapsed / 60000 / 60 / 24 / 365;
-      //   console.log("years", years);
-      timeStorage = years;
-      description = "years";
+    for (const data of timeUnits) {
+      if (timelapsed > data.divide) {
+        timeStorage = timelapsed / data.divide;
+        description = data.unit;
+      }
     }
 
     // Round Numbers
