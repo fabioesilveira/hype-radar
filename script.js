@@ -22,39 +22,19 @@ fetch(fetchURL)
     let description = "";
 
     // The Math
-    if (timelapsed > 60000) {
-      const minutes = timelapsed / 60000;
-      //   console.log("minutes", minutes);
-      timeStorage = minutes;
-      description = "minutes";
-    }
+    const timeUnits = [
+      { unit: "years", divide: 60000 * 60 * 24 * 365 },
+      { unit: "weeks", divide: 60000 * 60 * 24 * 7 },
+      { unit: "days", divide: 60000 * 60 * 24 },
+      { unit: "hours", divide: 60000 * 60 },
+      { unit: "minutes", divide: 60000 },
+    ];
 
-    if (timelapsed > 60000 * 60) {
-      const hours = timelapsed / 60000 / 60;
-      //   console.log("hours", hours);
-      timeStorage = hours;
-      description = "hours";
-    }
-
-    if (timelapsed > 60000 * 60 * 24) {
-      const days = timelapsed / 60000 / 60 / 24;
-      //   console.log("days", days);
-      timeStorage = days;
-      description = "days";
-    }
-
-    if (timelapsed > 60000 * 60 * 24 * 7) {
-      const weeks = timelapsed / 60000 / 60 / 24 / 7;
-      //   console.log("weeks", weeks);
-      timeStorage = weeks;
-      description = "weeks";
-    }
-
-    if (timelapsed > 60000 * 60 * 24 * 365) {
-      const years = timelapsed / 60000 / 60 / 24 / 365;
-      //   console.log("years", years);
-      timeStorage = years;
-      description = "years";
+    for (const data of timeUnits) {
+      if (timelapsed > data.divide) {
+        timeStorage = timelapsed / data.divide;
+        description = data.unit;
+      }
     }
 
     // Round Numbers
@@ -87,6 +67,9 @@ function handleSearchFormSubmit(event) {
   }
 
   console.log(userInput);
+  // Empty search bar
+  const searchBar = document.querySelector("#search-input");
+  searchBar.value = "";
 
   getUserData(userInput);
 }
@@ -117,16 +100,22 @@ async function getUserData(userInput) {
 
   // Stats Display
   const views = document.querySelector("#viewCount");
-  views.textContent = userData.items[0].statistics.viewCount; // Is there a way to make the number readable?
+  views.textContent = parseInt(
+    userData.items[0].statistics.viewCount
+  ).toLocaleString(); // Format the number with commas
 
   const upload = document.querySelector("#uploadCount");
-  upload.textContent = userData.items[0].statistics.videoCount;
+  upload.textContent = parseInt(
+    userData.items[0].statistics.videoCount
+  ).toLocaleString(); // Format the number with commas
 
   const followers = document.querySelector("#followers");
-  followers.textContent = userData.items[0].statistics.subscriberCount;
+  followers.textContent = parseInt(
+    userData.items[0].statistics.subscriberCount
+  ).toLocaleString(); // Format the number with commas
 
   const joined = document.querySelector("#joinDate");
-  joined.textContent = userData.items[0].snippet.publishedAt;
+  joined.textContent = userData.items[0].snippet.publishedAt.substring(0, 10); // Format is YYYY-MM-DD
 
   getUserVideoList(userVideos);
 }
