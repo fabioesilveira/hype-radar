@@ -127,6 +127,38 @@ async function getTrendingData() {
   let popularData = await (await fetch(popularVideos)).json(); //wait for the data and wait for the json
 
   console.log(popularData);
+
+  var fiveTrendingCards = document.querySelector(".trendingData");
+
+  for(let i = 0; i < 5; i++) {
+    var trendingCard = document.createElement('div');
+    trendingCard.classList.add('media');
+
+    fiveTrendingCards.append(trendingCard);
+
+    var mediaLeft = document.createElement('div');
+    mediaLeft.classList.add('media-left');
+    var mediaContent = document.createElement('div');
+    mediaContent.classList.add('media-content');
+    var mediaRight = document.createElement('div');
+    mediaRight.classList.add('media-right');
+
+    var figure = document.createElement('figure');
+    var image = document.createElement('img');
+    var title = document.createElement('p');
+    var videoLink = document.createElement('a');
+    var linkButton = document.createElement('button');
+
+    figure.append(image);
+    videoLink.append(linkButton);
+
+    mediaLeft.append(figure);
+    mediaContent.append(title);
+    mediaRight.append(videoLink);
+
+    trendingCard.append(mediaLeft, mediaContent, mediaRight);
+
+  }
 }
 
 async function getUserVideoList(userVideos) {
@@ -188,6 +220,3 @@ function getVideoLink(videoId) {
   return videoLink;
 }
 
-function printUserData(userVideos) {
-    
-}
