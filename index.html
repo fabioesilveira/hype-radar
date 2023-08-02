@@ -44,10 +44,10 @@
             Menu
           </a>
           <div class="navbar-dropdown is-boxed">
-            <a id = "searchHistoryTab" class="navbar-item" href="#">
+            <a id = "searchHistoryTab" class="navbar-item" href="#searchHistory">
               Search History
             </a>
-            <a id = "trendingVideosTab" class="navbar-item" href="#">
+            <a id = "trendingVideosTab" class="navbar-item" href="#trendingPage">
               Trending Videos
             </a>
             <hr class="navbar-divider">
@@ -175,13 +175,13 @@
 
    <!-- History Display -->
     <div class = "searchHistoryCards columns">
-      <div id = "searchHistory" class = "column card">
+      <div class = "column card">
         <div class = "card-content">
           <p class="title is-3 has-text-centered">YouTube Search History</p>
-          <div>
+          <div id = "searchHistory">
             <button class="button is-fullwidth is-light">Username</button>
           </div>
-          <div>
+          <div id = "resetHistory">
             <button class="button is-fullwidth is-light">Reset History</button>
           </div>
         </div>
