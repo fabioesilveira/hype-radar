@@ -2,7 +2,7 @@ var fetchURL = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=
 
 var homePage = document.getElementById("mainCards");
 var trendingPage = document.getElementById("trendingPage");
-var historyPage = document.getElementById("searchHistory");
+var searchHistory = document.getElementById("searchHistory");
 
 var userVideoList = document.querySelector('#recentUploadsYT');
 
@@ -75,6 +75,11 @@ function handleSearchFormSubmit(event) {
   const searchBar = document.querySelector("#search-input");
   searchBar.value = "";
 
+  var users= readUsersFromStorage();
+  users.unshift(userInput);
+  saveUsersToStorage(users);
+  printSearchHistory(users);
+
   getUserData(userInput);
 }
 
@@ -134,12 +139,14 @@ async function getTrendingData() {
 
   var fiveTrendingCards = document.querySelector(".trendingData");
 
+    //create five cards that hold the top five trending data videos and information
   for(let i = 0; i < 5; i++) {
     var trendingCard = document.createElement('div');
     trendingCard.classList.add('media');
 
     fiveTrendingCards.append(trendingCard);
 
+    //create all necessary elements
     var mediaLeft = document.createElement('div');
     mediaLeft.classList.add('media-left');
     var mediaContent = document.createElement('div');
@@ -153,6 +160,7 @@ async function getTrendingData() {
     var videoLink = document.createElement('a');
     var linkButton = document.createElement('button');
 
+    //add classes and attributes to elements
     figure.classList.add("image", "is-62x62");
     var imageLink = 'https://i.ytimg.com/vi/'+ popularData.items[i].id +'/default.jpg'
     image.setAttribute("src", imageLink);
@@ -161,13 +169,13 @@ async function getTrendingData() {
     title.classList.add("title", "is-4");
     title.innerHTML = popularData.items[i].snippet.localized.title;
 
-
     var trendingVideoLink = getVideoLink(popularData.items[i].id);
     videoLink.setAttribute("href", trendingVideoLink);
     videoLink.setAttribute("target", "_blank");
     linkButton.classList.add("button", "is-link", "is-light");
     linkButton.innerHTML = "Watch the video!";
 
+    //append elements to appropriate locations
     figure.append(image);
     videoLink.append(linkButton);
 
@@ -184,20 +192,21 @@ async function getUserVideoList(userVideos) {
   
     var userVideosURl = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0&channelId=` + userVideos + `&part=snippet,id&order=date&maxResults=10`;
 
-  let userVideoData = await (await fetch(userVideosURl)).json();
+    let userVideoData = await (await fetch(userVideosURl)).json();
 
-  console.log(userVideoData);
+    console.log(userVideoData);
 
-  userVideoList.innerHTML = ""
+    userVideoList.innerHTML = ""
 
-  for(let i = 0; i < 10; i++) {
-    var buttonEl = document.createElement('button');
-    buttonEl.classList.add('button','is-light', 'is-fullwidth');
-    //buttonEl.setAttribute('type', 'button');
-    buttonEl.textContent = userVideoData.items[i].snippet.title;
-    buttonEl.setAttribute('id', userVideoData.items[i].id.videoId);
-    userVideoList.append(buttonEl);
-  }
+    //create ten buttons for the most recent uploads from the user
+    for(let i = 0; i < 10; i++) {
+        var buttonEl = document.createElement('button');
+        buttonEl.classList.add('button','is-light', 'is-fullwidth');
+        //buttonEl.setAttribute('type', 'button');
+        buttonEl.textContent = userVideoData.items[i].snippet.title;
+        buttonEl.setAttribute('id', userVideoData.items[i].id.videoId);
+        userVideoList.append(buttonEl);
+    }
 
 }
 
@@ -210,11 +219,13 @@ userVideoList.addEventListener("click", function(event) {
     console.log(videoSelected);
     console.log(idSelected);
 
+    //get video link and print individual video data from video Id
     var videoLink = getVideoLink(idSelected);
-    var videoData = getVideoData(idSelected);
+    getVideoData(idSelected);
 
     console.log(videoLink);
 
+    //print video data to dom
     var videoTitle = document.querySelector('#videoTitle');
     videoTitle.textContent = videoSelected;
 
@@ -229,6 +240,9 @@ userVideoList.addEventListener("click", function(event) {
 
 function init() {
   getTrendingData();
+
+  var users= readUsersFromStorage();
+  printSearchHistory(users);
 }
 
 init();
@@ -236,8 +250,7 @@ init();
 function getVideoLink(videoId) {
   var videoLink = `https://www.youtube.com/watch?v=${videoId}`;
   return videoLink;
-}
-
+} //function creates link to watch video from video Id
 
 async function getVideoData(videoId) {
 
@@ -254,4 +267,50 @@ async function getVideoData(videoId) {
     viewCount.textContent = parseInt(videoData.items[0].statistics.viewCount).toLocaleString();
     commentCount.textContent = parseInt(videoData.items[0].statistics.commentCount).toLocaleString();
     likeCount.textContent = parseInt(videoData.items[0].statistics.likeCount).toLocaleString();
-}
+}//gets individual video data and prints it to DOM
+
+searchHistory.addEventListener("click", function(event) {
+    event.preventDefault();
+    var element = event.target;
+
+    var historyUser = element.innerHTML;
+
+    getUserData(historyUser);
+
+    //put dom manipulation here
+})//provides function for search history buttons
+
+//put reset history button event listener
+
+function readUsersFromStorage() {
+  var users = localStorage.getItem('users');
+  if (users) {
+    users = JSON.parse(users);
+  } else {
+    users = [];
+  }
+  console.log(users);
+  return users;
+}//reads users from storage
+
+
+function saveUsersToStorage(users) {
+  localStorage.setItem('users', JSON.stringify(users));
+}// Takes an array of projects and saves them in localStorage.
+
+function printSearchHistory(users) {
+  //print so they are present at page load
+  searchHistory.innerHTML = ""
+
+  users = users.splice(0, 8);
+  console.log(users);
+
+  for(let i = 0; i < users.length; i++) {
+    var buttonEl = document.createElement('button');
+    buttonEl.classList.add('button', 'is-fullwidth', 'is-light');
+    buttonEl.setAttribute('type', 'button');
+    buttonEl.innerHTML = `${users[i]}`;
+
+    searchHistory.append(buttonEl);
+  }
+}//prints search history buttons to DOM
