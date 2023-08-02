@@ -3,6 +3,7 @@ var fetchURL = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=
 var homePage = document.getElementById("mainCards");
 var trendingPage = document.getElementById("trendingPage");
 var searchHistory = document.getElementById("searchHistory");
+var resetHistory = document.getElementById("resetHistory");
 
 var userVideoList = document.querySelector('#recentUploadsYT');
 
@@ -277,10 +278,16 @@ searchHistory.addEventListener("click", function(event) {
 
     getUserData(historyUser);
 
-    //put dom manipulation here
 })//provides function for search history buttons
 
-//put reset history button event listener
+resetHistory.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    localStorage.clear();
+    var users= readUsersFromStorage();
+    printSearchHistory(users);
+
+})
 
 function readUsersFromStorage() {
   var users = localStorage.getItem('users');
