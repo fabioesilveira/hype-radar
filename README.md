@@ -6,7 +6,7 @@ Hype Radar is a media tracker software that allows individuals or organizations 
 
 ## Usage
 
-Enter a Youtube account to check users views, uploads, subscribers and Youtube's joined date. Check the user's most recent uploads and choose a video to watch and be redirected to Youtube. Check the Youtube's top 5 trending videos.
+Enter a Youtube account to check users views, uploads, subscribers and Youtube's joined date. Check the user's most recent uploads and choose a video to watch and be redirected to Youtube. On Youtube search history, click the account you've entered prior to display a chart with views, uploads and subscribers. Check the Youtube's top 5 trending videos.
 
 ## Technologies used
 
