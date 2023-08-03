@@ -6,6 +6,39 @@ var searchHistory = document.getElementById("searchHistory");
 var resetHistory = document.getElementById("resetHistory");
 
 var userVideoList = document.querySelector('#recentUploadsYT');
+const ctx=document.getElementById("chart").getContext("2d")
+const canvas=document.querySelector(".canvas")
+
+const data = {
+  labels: [
+    'April',
+    'July',
+    'August'
+  ],
+  datasets: [{
+    label: 'My First Dataset',
+    data: [12,19,3,5],
+    backgroundColor: [
+      'rgb(0, 0, 255)',
+      'rgb(0, 0, 255)',
+      'rgb(0, 0, 255)'
+    ],
+    hoverOffset: 4
+  },{
+    options:{
+      scales:{
+        y:{
+          beginAtZero:true
+        }
+      }
+    }
+  }]
+};
+
+new Chart(ctx,{
+  type:'bar',
+  data:data
+});
 
 // Timestamp Fetch
 fetch(fetchURL)
@@ -277,6 +310,8 @@ searchHistory.addEventListener("click", function(event) {
     var historyUser = element.innerHTML;
 
     getUserData(historyUser);
+    canvas.classList.replace("hide", "show")
+  
 
 })//provides function for search history buttons
 
@@ -286,6 +321,7 @@ resetHistory.addEventListener("click", function(event) {
     localStorage.clear();
     var users= readUsersFromStorage();
     printSearchHistory(users);
+    canvas.classList.replace("show", "hide")
 
 })
 
