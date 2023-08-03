@@ -1,5 +1,5 @@
 // To minimize API Key exposure
-const apiKey = "AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0";
+const apiKey = "AIzaSyAZGbZ7QVBH072f46M34t148Rjpbdi3TPs";
 const fetchURL = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=${apiKey}&part=snippet,contentDetails,statistics,status`;
 
 var homePage = document.getElementById("mainCards");
@@ -10,6 +10,12 @@ var userVideoList = document.querySelector("#recentUploadsYT");
 const canvas = document.querySelector(".canvas");
 
 function createChart(userData) {
+  // Check if userData and userData.items exist and is not empty
+  if (!userData || !userData.items || userData.items.length === 0) {
+    showErrorModal("Error: No data available for chart creation.");
+    return;
+  }
+
   canvas.innerHTML = "";
 
   const uniqueNumber = Math.floor(Math.random() * 1000000);
@@ -103,7 +109,7 @@ function handleSearchFormSubmit(event) {
   var userInput = document.querySelector("#search-input").value;
 
   if (!userInput) {
-    console.error("User not found, please try another");
+    showErrorModal("User not found, please try another"); // Switch console.log to modal
     return;
   }
 
@@ -127,6 +133,14 @@ async function getUserData(userInput) {
 
   let userData = await (await fetch(searchByUsername)).json(); //wait for the data and wait for the json
   console.log(userData);
+
+  // Check if userData and userData.items exist and is not empty
+  if (!userData || !userData.items || userData.items.length === 0) {
+    showErrorModal(
+      "User data not found. Please check the username and try again."
+    );
+    return;
+  }
 
   createChart(userData);
 
@@ -346,6 +360,7 @@ function saveUsersToStorage(users) {
 } // Takes an array of projects and saves them in localStorage.
 
 function printSearchHistory(users) {
+  users = users.filter((user, index) => users.indexOf(user) === index); // Remove duplicate elements from the 'users' array
   //print so they are present at page load
   searchHistory.innerHTML = "";
 
@@ -379,4 +394,25 @@ function shortNum(number) {
   const formattedNumber = parseFloat(roundedNumber).toString();
 
   return formattedNumber + symbols[tier];
+}
+
+// Function to show the error modal
+function showErrorModal(errorMessage) {
+  var modal = document.getElementById("errorModal");
+  var messageElement = document.getElementById("errorMessage");
+
+  messageElement.textContent = errorMessage; // Updates error message displayed in the modal
+  modal.style.display = "block"; // The modal visible on the screen
+
+  var closeBtn = document.querySelector(".close");
+  closeBtn.onclick = function () {
+    modal.style.display = "none";
+  }; // Modal is hidden when the close button is clicked
+
+  // Close the modal when clicking anywhere outside the content
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
 }
