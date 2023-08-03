@@ -92,13 +92,6 @@ fetch(fetchURL)
         description = data.unit;
       }
     }
-
-    // Round Numbers
-    let wholeNum = Math.trunc(timeStorage);
-
-    console.log(data);
-    console.log(timelapsed);
-    console.log(wholeNum, description);
   });
 
 var searchFormEl = document.querySelector("#search-form");
@@ -113,7 +106,6 @@ function handleSearchFormSubmit(event) {
     return;
   }
 
-  console.log(userInput);
   // Empty search bar
   const searchBar = document.querySelector("#search-input");
   searchBar.value = "";
@@ -129,10 +121,9 @@ function handleSearchFormSubmit(event) {
 searchFormEl.addEventListener("submit", handleSearchFormSubmit);
 
 async function getUserData(userInput) {
-  var searchByUsername = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername=${userInput}&key=${apiKey}`;
+  const searchByUsername = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername=${userInput}&key=${apiKey}`;
 
   let userData = await (await fetch(searchByUsername)).json(); //wait for the data and wait for the json
-  console.log(userData);
 
   // Check if userData and userData.items exist and is not empty
   if (!userData || !userData.items || userData.items.length === 0) {
@@ -145,7 +136,6 @@ async function getUserData(userInput) {
   createChart(userData);
 
   var userVideos = userData.items[0].id;
-  console.log(userVideos);
 
   // Account Display
   const avatar = document.querySelector("#avatarYT");
@@ -182,46 +172,43 @@ async function getUserData(userInput) {
 }
 
 async function getTrendingData() {
-  var popularVideos = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${apiKey}`;
+  const popularVideos = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${apiKey}`;
 
   let popularData = await (await fetch(popularVideos)).json(); //wait for the data and wait for the json
 
-  console.log(popularData);
-
-  var fiveTrendingCards = document.querySelector(".trendingData");
+  let fiveTrendingCards = document.querySelector(".trendingData");
 
   //create five cards that hold the top five trending data videos and information
   for (let i = 0; i < 5; i++) {
-    var trendingCard = document.createElement("div");
+    let trendingCard = document.createElement("div");
     trendingCard.classList.add("media");
 
     fiveTrendingCards.append(trendingCard);
 
     //create all necessary elements
-    var mediaLeft = document.createElement("div");
+    let mediaLeft = document.createElement("div");
     mediaLeft.classList.add("media-left");
-    var mediaContent = document.createElement("div");
+    let mediaContent = document.createElement("div");
     mediaContent.classList.add("media-content");
-    var mediaRight = document.createElement("div");
+    let mediaRight = document.createElement("div");
     mediaRight.classList.add("media-right");
 
-    var figure = document.createElement("figure");
-    var image = document.createElement("img");
-    var title = document.createElement("p");
-    var videoLink = document.createElement("a");
-    var linkButton = document.createElement("button");
+    let figure = document.createElement("figure");
+    let image = document.createElement("img");
+    let title = document.createElement("p");
+    let videoLink = document.createElement("a");
+    let linkButton = document.createElement("button");
 
     //add classes and attributes to elements
     figure.classList.add("image", "is-62x62");
-    var imageLink =
-      "https://i.ytimg.com/vi/" + popularData.items[i].id + "/default.jpg";
+    let imageLink = `https://i.ytimg.com/vi/${popularData.items[i].id}/default.jpg`;
     image.setAttribute("src", imageLink);
     image.setAttribute("alt", "Placeholder image");
 
     title.classList.add("title", "is-4");
     title.innerHTML = popularData.items[i].snippet.localized.title;
 
-    var trendingVideoLink = getVideoLink(popularData.items[i].id);
+    let trendingVideoLink = getVideoLink(popularData.items[i].id);
     videoLink.setAttribute("href", trendingVideoLink);
     videoLink.setAttribute("target", "_blank");
     linkButton.classList.add("button", "is-link", "is-light");
@@ -240,16 +227,14 @@ async function getTrendingData() {
 }
 
 async function getUserVideoList(userVideos) {
-  var userVideosURl = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${userVideos}&part=snippet,id&order=date&maxResults=10`;
+  const userVideosURl = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${userVideos}&part=snippet,id&order=date&maxResults=10`;
 
   let userVideoData = await (await fetch(userVideosURl)).json();
-
-  console.log(userVideoData);
 
   userVideoList.innerHTML = "";
 
   for (let i = 0; i < 10; i++) {
-    var buttonEl = document.createElement("button");
+    const buttonEl = document.createElement("button");
     buttonEl.classList.add("button", "is-light", "is-fullwidth");
     // Use innerHTML instead of textContent to turn &quot into quotation marks;
     buttonEl.innerHTML = userVideoData.items[i].snippet.title;
@@ -260,28 +245,24 @@ async function getUserVideoList(userVideos) {
 
 userVideoList.addEventListener("click", function (event) {
   event.preventDefault();
-  var element = event.target;
+  let element = event.target;
 
-  var videoSelected = element.innerHTML;
-  var idSelected = element.id;
-  console.log(videoSelected);
-  console.log(idSelected);
+  let videoSelected = element.innerHTML;
+  let idSelected = element.id;
 
   //get video link and print individual video data from video Id
-  var videoLink = getVideoLink(idSelected);
+  let videoLink = getVideoLink(idSelected);
   getVideoData(idSelected);
 
-  console.log(videoLink);
-
   //print video data to dom
-  var videoTitle = document.querySelector("#videoTitle");
+  let videoTitle = document.querySelector("#videoTitle");
   videoTitle.textContent = videoSelected;
 
-  var buttonEl = document.querySelector("#videoLink");
+  let buttonEl = document.querySelector("#videoLink");
   buttonEl.setAttribute("href", videoLink);
   buttonEl.setAttribute("target", "_blank");
 
-  var thumbnailUrl = "https://i.ytimg.com/vi/" + idSelected + "/default.jpg";
+  var thumbnailUrl = `https://i.ytimg.com/vi/${idSelected}/default.jpg`;
   var videoThumbnailUrl = document.querySelector("#videoThumbnail");
   videoThumbnailUrl.setAttribute("src", thumbnailUrl);
 });
@@ -304,8 +285,6 @@ async function getVideoData(videoId) {
   var videoDataURL = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`;
 
   let videoData = await (await fetch(videoDataURL)).json();
-
-  console.log(videoData);
 
   var viewCount = document.querySelector("#viewCountVideo");
   var commentCount = document.querySelector("#uploadCountVideo");
@@ -351,7 +330,6 @@ function readUsersFromStorage() {
   } else {
     users = [];
   }
-  console.log(users);
   return users;
 } //reads users from storage
 
@@ -365,7 +343,6 @@ function printSearchHistory(users) {
   searchHistory.innerHTML = "";
 
   users = users.splice(0, 8);
-  console.log(users);
 
   for (let i = 0; i < users.length; i++) {
     var buttonEl = document.createElement("button");
