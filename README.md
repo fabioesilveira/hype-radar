@@ -18,8 +18,8 @@ Project By Clarice Kwong, Fabio Silveira, Katherine Thames, Ralston Brown.
 
 ## Deployed Site
 
-![Screenshot of Deployed Website]()
+![Screenshot of Deployed Website](assets/images/Deployed-HypeRadar.png)
 
-[Live Demo Link]()
+[Live Demo Link](https://fabioesilveira.github.io/hype-radar/)
 
 
