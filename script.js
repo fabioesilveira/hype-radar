@@ -4,41 +4,54 @@ var homePage = document.getElementById("mainCards");
 var trendingPage = document.getElementById("trendingPage");
 var searchHistory = document.getElementById("searchHistory");
 var resetHistory = document.getElementById("resetHistory");
-
 var userVideoList = document.querySelector('#recentUploadsYT');
-const ctx=document.getElementById("chart").getContext("2d")
 const canvas=document.querySelector(".canvas")
 
-const data = {
-  labels: [
-    'April',
-    'July',
-    'August'
-  ],
-  datasets: [{
-    label: 'My First Dataset',
-    data: [12,19,3,5],
-    backgroundColor: [
-      'rgb(0, 0, 255)',
-      'rgb(0, 0, 255)',
-      'rgb(0, 0, 255)'
+function createChart(userData) {
+  canvas.innerHTML = '';
+
+  const uniqueNumber = Math.floor(Math.random() * 1000000)
+
+  const newCanvas = document.createElement("canvas")
+  newCanvas.id = uniqueNumber;
+  canvas.append(newCanvas)
+
+  const ctx=document.getElementById(uniqueNumber).getContext("2d")
+  
+  
+  const data = {
+    labels: [
+      'Views',
+      'Uploads',
+      'Subscribers'
     ],
-    hoverOffset: 4
-  },{
-    options:{
-      scales:{
-        y:{
-          beginAtZero:true
+    datasets: [{
+      label: 'My First Dataset',
+      data: [userData.items[0].statistics.viewCount,userData.items[0].statistics.videoCount,userData.items[0].statistics.subscriberCount],
+      backgroundColor: [
+        'rgb(0, 0, 255)',
+        'rgb(0, 0, 255)',
+        'rgb(0, 0, 255)'
+      ],
+      minBarLength: 10,
+      hoverOffset: 4
+    },{
+      options:{
+        scales:{
+          y:{
+            beginAtZero:true
+          }
         }
       }
-    }
-  }]
-};
+    }]
+  };
+  
+  new Chart(ctx,{
+    type:'bar',
+    data:data
+  });
 
-new Chart(ctx,{
-  type:'bar',
-  data:data
-});
+}
 
 // Timestamp Fetch
 fetch(fetchURL)
@@ -127,6 +140,8 @@ async function getUserData(userInput) {
 
   let userData = await (await fetch(searchByUsername)).json(); //wait for the data and wait for the json
   console.log(userData);
+  
+  createChart(userData)
 
   var userVideos = userData.items[0].id;
   console.log(userVideos);
