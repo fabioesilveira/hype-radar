@@ -1,56 +1,55 @@
-var fetchURL = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0&part=snippet,contentDetails,statistics,status`;
+// To minimize API Key exposure
+const apiKey = "AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0";
+const fetchURL = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=${apiKey}&part=snippet,contentDetails,statistics,status`;
 
 var homePage = document.getElementById("mainCards");
 var trendingPage = document.getElementById("trendingPage");
 var searchHistory = document.getElementById("searchHistory");
 var resetHistory = document.getElementById("resetHistory");
-var userVideoList = document.querySelector('#recentUploadsYT');
-const canvas=document.querySelector(".canvas")
+var userVideoList = document.querySelector("#recentUploadsYT");
+const canvas = document.querySelector(".canvas");
 
 function createChart(userData) {
-  canvas.innerHTML = '';
+  canvas.innerHTML = "";
 
-  const uniqueNumber = Math.floor(Math.random() * 1000000)
+  const uniqueNumber = Math.floor(Math.random() * 1000000);
 
-  const newCanvas = document.createElement("canvas")
+  const newCanvas = document.createElement("canvas");
   newCanvas.id = uniqueNumber;
-  canvas.append(newCanvas)
+  canvas.append(newCanvas);
 
-  const ctx=document.getElementById(uniqueNumber).getContext("2d")
-  
-  
+  const ctx = document.getElementById(uniqueNumber).getContext("2d");
+
   const data = {
-    labels: [
-      'Views',
-      'Uploads',
-      'Subscribers'
+    labels: ["Views", "Uploads", "Subscribers"],
+    datasets: [
+      {
+        label: "My First Dataset",
+        data: [
+          userData.items[0].statistics.viewCount,
+          userData.items[0].statistics.videoCount,
+          userData.items[0].statistics.subscriberCount,
+        ],
+        backgroundColor: ["rgb(0, 0, 255)", "rgb(0, 0, 255)", "rgb(0, 0, 255)"],
+        minBarLength: 10,
+        hoverOffset: 4,
+      },
+      {
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      },
     ],
-    datasets: [{
-      label: 'My First Dataset',
-      data: [userData.items[0].statistics.viewCount,userData.items[0].statistics.videoCount,userData.items[0].statistics.subscriberCount],
-      backgroundColor: [
-        'rgb(0, 0, 255)',
-        'rgb(0, 0, 255)',
-        'rgb(0, 0, 255)'
-      ],
-      minBarLength: 10,
-      hoverOffset: 4
-    },{
-      options:{
-        scales:{
-          y:{
-            beginAtZero:true
-          }
-        }
-      }
-    }]
   };
-  
-  new Chart(ctx,{
-    type:'bar',
-    data:data
-  });
 
+  new Chart(ctx, {
+    type: "bar",
+    data: data,
+  });
 }
 
 // Timestamp Fetch
@@ -96,15 +95,6 @@ fetch(fetchURL)
     console.log(wholeNum, description);
   });
 
-//getData();
-
-// function (){
-//     var worldTimeAPIkey = "cifLc8RbKUl7kVs7tqJ2xg==gFT6OiooBMdW3P7d";
-
-//     fetch(api)
-
-// }
-
 var searchFormEl = document.querySelector("#search-form");
 
 function handleSearchFormSubmit(event) {
@@ -122,7 +112,7 @@ function handleSearchFormSubmit(event) {
   const searchBar = document.querySelector("#search-input");
   searchBar.value = "";
 
-  var users= readUsersFromStorage();
+  var users = readUsersFromStorage();
   users.unshift(userInput);
   saveUsersToStorage(users);
   printSearchHistory(users);
@@ -133,15 +123,12 @@ function handleSearchFormSubmit(event) {
 searchFormEl.addEventListener("submit", handleSearchFormSubmit);
 
 async function getUserData(userInput) {
-  var searchByUsername =
-    "https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername=" +
-    userInput +
-    "&key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0";
+  var searchByUsername = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername=${userInput}&key=${apiKey}`;
 
   let userData = await (await fetch(searchByUsername)).json(); //wait for the data and wait for the json
   console.log(userData);
-  
-  createChart(userData)
+
+  createChart(userData);
 
   var userVideos = userData.items[0].id;
   console.log(userVideos);
@@ -158,29 +145,30 @@ async function getUserData(userInput) {
 
   // Stats Display
   const views = document.querySelector("#viewCount");
-  views.textContent = parseInt(
-    userData.items[0].statistics.viewCount
-  ).toLocaleString(); // Format the number with commas
+  views.textContent = shortNum(
+    parseInt(userData.items[0].statistics.viewCount)
+  );
 
   const upload = document.querySelector("#uploadCount");
-  upload.textContent = parseInt(
-    userData.items[0].statistics.videoCount
-  ).toLocaleString(); // Format the number with commas
+  upload.textContent = shortNum(
+    parseInt(userData.items[0].statistics.videoCount)
+  );
 
   const followers = document.querySelector("#followers");
-  followers.textContent = parseInt(
-    userData.items[0].statistics.subscriberCount
-  ).toLocaleString(); // Format the number with commas
+  followers.textContent = shortNum(
+    parseInt(userData.items[0].statistics.subscriberCount)
+  );
 
+  // Change the format of the JoinDate
   const joined = document.querySelector("#joinDate");
-  joined.textContent = userData.items[0].snippet.publishedAt.substring(0, 10); // Format is YYYY-MM-DD
+  const formattedJoinDate = formatDate(userData.items[0].snippet.publishedAt);
+  joined.textContent = formattedJoinDate;
 
   getUserVideoList(userVideos);
 }
 
 async function getTrendingData() {
-  var popularVideos =
-    "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0";
+  var popularVideos = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${apiKey}`;
 
   let popularData = await (await fetch(popularVideos)).json(); //wait for the data and wait for the json
 
@@ -188,32 +176,33 @@ async function getTrendingData() {
 
   var fiveTrendingCards = document.querySelector(".trendingData");
 
-    //create five cards that hold the top five trending data videos and information
-  for(let i = 0; i < 5; i++) {
-    var trendingCard = document.createElement('div');
-    trendingCard.classList.add('media');
+  //create five cards that hold the top five trending data videos and information
+  for (let i = 0; i < 5; i++) {
+    var trendingCard = document.createElement("div");
+    trendingCard.classList.add("media");
 
     fiveTrendingCards.append(trendingCard);
 
     //create all necessary elements
-    var mediaLeft = document.createElement('div');
-    mediaLeft.classList.add('media-left');
-    var mediaContent = document.createElement('div');
-    mediaContent.classList.add('media-content');
-    var mediaRight = document.createElement('div');
-    mediaRight.classList.add('media-right');
+    var mediaLeft = document.createElement("div");
+    mediaLeft.classList.add("media-left");
+    var mediaContent = document.createElement("div");
+    mediaContent.classList.add("media-content");
+    var mediaRight = document.createElement("div");
+    mediaRight.classList.add("media-right");
 
-    var figure = document.createElement('figure');
-    var image = document.createElement('img');
-    var title = document.createElement('p');
-    var videoLink = document.createElement('a');
-    var linkButton = document.createElement('button');
+    var figure = document.createElement("figure");
+    var image = document.createElement("img");
+    var title = document.createElement("p");
+    var videoLink = document.createElement("a");
+    var linkButton = document.createElement("button");
 
     //add classes and attributes to elements
     figure.classList.add("image", "is-62x62");
-    var imageLink = 'https://i.ytimg.com/vi/'+ popularData.items[i].id +'/default.jpg'
+    var imageLink =
+      "https://i.ytimg.com/vi/" + popularData.items[i].id + "/default.jpg";
     image.setAttribute("src", imageLink);
-    image.setAttribute("alt","Placeholder image");
+    image.setAttribute("alt", "Placeholder image");
 
     title.classList.add("title", "is-4");
     title.innerHTML = popularData.items[i].snippet.localized.title;
@@ -233,64 +222,60 @@ async function getTrendingData() {
     mediaRight.append(videoLink);
 
     trendingCard.append(mediaLeft, mediaContent, mediaRight);
-
   }
 }
 
 async function getUserVideoList(userVideos) {
-  
-    var userVideosURl = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0&channelId=` + userVideos + `&part=snippet,id&order=date&maxResults=10`;
+  var userVideosURl = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${userVideos}&part=snippet,id&order=date&maxResults=10`;
 
-    let userVideoData = await (await fetch(userVideosURl)).json();
+  let userVideoData = await (await fetch(userVideosURl)).json();
 
-    console.log(userVideoData);
+  console.log(userVideoData);
 
-    userVideoList.innerHTML = ""
+  userVideoList.innerHTML = "";
 
-    //create ten buttons for the most recent uploads from the user
-    for(let i = 0; i < 10; i++) {
-        var buttonEl = document.createElement('button');
-        buttonEl.classList.add('button','is-light', 'is-fullwidth');
-        //buttonEl.setAttribute('type', 'button');
-        buttonEl.textContent = userVideoData.items[i].snippet.title;
-        buttonEl.setAttribute('id', userVideoData.items[i].id.videoId);
-        userVideoList.append(buttonEl);
-    }
-
+  for (let i = 0; i < 10; i++) {
+    var buttonEl = document.createElement("button");
+    buttonEl.classList.add("button", "is-light", "is-fullwidth");
+    // Use innerHTML instead of textContent to turn &quot into quotation marks;
+    buttonEl.innerHTML = userVideoData.items[i].snippet.title;
+    buttonEl.setAttribute("id", userVideoData.items[i].id.videoId);
+    userVideoList.append(buttonEl);
+  }
 }
 
-userVideoList.addEventListener("click", function(event) {
-    event.preventDefault();
-    var element = event.target;
+userVideoList.addEventListener("click", function (event) {
+  event.preventDefault();
+  var element = event.target;
 
-    var videoSelected = element.innerHTML;
-    var idSelected = element.id;
-    console.log(videoSelected);
-    console.log(idSelected);
+  var videoSelected = element.innerHTML;
+  var idSelected = element.id;
+  console.log(videoSelected);
+  console.log(idSelected);
 
-    //get video link and print individual video data from video Id
-    var videoLink = getVideoLink(idSelected);
-    getVideoData(idSelected);
+  //get video link and print individual video data from video Id
+  var videoLink = getVideoLink(idSelected);
+  getVideoData(idSelected);
 
-    console.log(videoLink);
+  console.log(videoLink);
 
-    //print video data to dom
-    var videoTitle = document.querySelector('#videoTitle');
-    videoTitle.textContent = videoSelected;
+  //print video data to dom
+  var videoTitle = document.querySelector("#videoTitle");
+  videoTitle.textContent = videoSelected;
 
-    var buttonEl = document.querySelector('#videoLink');
-    buttonEl.setAttribute('href', videoLink);
-    buttonEl.setAttribute("target", "_blank");
+  var buttonEl = document.querySelector("#videoLink");
+  buttonEl.setAttribute("href", videoLink);
+  buttonEl.setAttribute("target", "_blank");
 
-    var thumbnailUrl = 'https://i.ytimg.com/vi/'+ idSelected + '/default.jpg';
-    var videoThumbnailUrl = document.querySelector('#videoThumbnail');
-    videoThumbnailUrl.setAttribute("src", thumbnailUrl);
-})
+  var thumbnailUrl = "https://i.ytimg.com/vi/" + idSelected + "/default.jpg";
+  var videoThumbnailUrl = document.querySelector("#videoThumbnail");
+  videoThumbnailUrl.setAttribute("src", thumbnailUrl);
+});
 
 function init() {
   getTrendingData();
 
-  var users= readUsersFromStorage();
+  var users = readUsersFromStorage();
   printSearchHistory(users);
 }
 
@@ -299,49 +284,54 @@ init();
 function getVideoLink(videoId) {
   var videoLink = `https://www.youtube.com/watch?v=${videoId}`;
   return videoLink;
-} //function creates link to watch video from video Id
+}
 
 async function getVideoData(videoId) {
+  var videoDataURL = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`;
 
-    var videoDataURL = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=`+ videoId +`&key=AIzaSyBE4-QzODzzAapaJHBTHgNAaq2vjRXw8-0`;
+  let videoData = await (await fetch(videoDataURL)).json();
 
-    let videoData = await (await fetch(videoDataURL)).json();
+  console.log(videoData);
 
-    console.log(videoData);
+  var viewCount = document.querySelector("#viewCountVideo");
+  var commentCount = document.querySelector("#uploadCountVideo");
+  var likeCount = document.querySelector("#likesVideo");
 
-    var viewCount = document.querySelector("#viewCountVideo");
-    var commentCount = document.querySelector("#uploadCountVideo");
-    var likeCount = document.querySelector("#likesVideo");
+  // Convert view count to a more readable format using shortNum function
+  var formattedViewCount = shortNum(
+    parseInt(videoData.items[0].statistics.viewCount)
+  );
 
-    viewCount.textContent = parseInt(videoData.items[0].statistics.viewCount).toLocaleString();
-    commentCount.textContent = parseInt(videoData.items[0].statistics.commentCount).toLocaleString();
-    likeCount.textContent = parseInt(videoData.items[0].statistics.likeCount).toLocaleString();
-}//gets individual video data and prints it to DOM
+  viewCount.textContent = formattedViewCount;
+  commentCount.textContent = shortNum(
+    parseInt(videoData.items[0].statistics.commentCount)
+  );
+  likeCount.textContent = shortNum(
+    parseInt(videoData.items[0].statistics.likeCount)
+  );
+} //gets individual video data and prints it to DOM
 
-searchHistory.addEventListener("click", function(event) {
-    event.preventDefault();
-    var element = event.target;
+searchHistory.addEventListener("click", function (event) {
+  event.preventDefault();
+  var element = event.target;
 
-    var historyUser = element.innerHTML;
+  var historyUser = element.innerHTML;
 
-    getUserData(historyUser);
-    canvas.classList.replace("hide", "show")
-  
+  getUserData(historyUser);
+  canvas.classList.replace("hide", "show");
+}); //provides function for search history buttons
 
-})//provides function for search history buttons
+resetHistory.addEventListener("click", function (event) {
+  event.preventDefault();
 
-resetHistory.addEventListener("click", function(event) {
-    event.preventDefault();
-
-    localStorage.clear();
-    var users= readUsersFromStorage();
-    printSearchHistory(users);
-    canvas.classList.replace("show", "hide")
-
-})
+  localStorage.clear();
+  var users = readUsersFromStorage();
+  printSearchHistory(users);
+  canvas.classList.replace("show", "hide");
+});
 
 function readUsersFromStorage() {
-  var users = localStorage.getItem('users');
+  var users = localStorage.getItem("users");
   if (users) {
     users = JSON.parse(users);
   } else {
@@ -349,26 +339,44 @@ function readUsersFromStorage() {
   }
   console.log(users);
   return users;
-}//reads users from storage
-
+} //reads users from storage
 
 function saveUsersToStorage(users) {
-  localStorage.setItem('users', JSON.stringify(users));
-}// Takes an array of projects and saves them in localStorage.
+  localStorage.setItem("users", JSON.stringify(users));
+} // Takes an array of projects and saves them in localStorage.
 
 function printSearchHistory(users) {
   //print so they are present at page load
-  searchHistory.innerHTML = ""
+  searchHistory.innerHTML = "";
 
   users = users.splice(0, 8);
   console.log(users);
 
-  for(let i = 0; i < users.length; i++) {
-    var buttonEl = document.createElement('button');
-    buttonEl.classList.add('button', 'is-fullwidth', 'is-light');
-    buttonEl.setAttribute('type', 'button');
+  for (let i = 0; i < users.length; i++) {
+    var buttonEl = document.createElement("button");
+    buttonEl.classList.add("button", "is-fullwidth", "is-light");
+    buttonEl.setAttribute("type", "button");
     buttonEl.innerHTML = `${users[i]}`;
 
     searchHistory.append(buttonEl);
   }
-}//prints search history buttons to DOM
+} //prints search history buttons to DOM
+
+// Show Date As MM/DD/YY
+function formatDate(numString) {
+  const options = { year: "2-digit", month: "2-digit", day: "2-digit" };
+  return new Date(numString).toLocaleDateString(undefined, options);
+}
+
+// Convert a large number into a more readable format
+function shortNum(number) {
+  const symbols = ["", " K", " M", " B", " T"];
+  // Calculate the tier of the number
+  const tier = (Math.log10(Math.abs(number)) / 3) | 0;
+  const roundedNumber = (number / Math.pow(1000, tier)).toFixed(3);
+
+  // Remove trailing zeroes after the decimal point
+  const formattedNumber = parseFloat(roundedNumber).toString();
+
+  return formattedNumber + symbols[tier];
+}
