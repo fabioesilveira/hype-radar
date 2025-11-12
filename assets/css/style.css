@@ -1,3 +1,9 @@
+.page-content {
+    max-width: 1400px; /* controls how wide the page can get */
+  margin: 0 auto;    /* centers it horizontally */
+  background-color: white /* optional: keeps the rest of the background visible */
+}
+
 canvas {
   width: 4px;
   height: 1px;

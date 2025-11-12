@@ -268,13 +268,30 @@ userVideoList.addEventListener("click", function (event) {
 });
 
 function init() {
+  // Default user value to load on start
+  const defaultUser = "YouTube";
+
+  // Load trending section
   getTrendingData();
 
+  // Read users from localStorage or initialize with default
   var users = readUsersFromStorage();
+
+  if (users.length === 0) {
+    users.push(defaultUser);
+    saveUsersToStorage(users);
+  }
+
+  // Show search history and load default user data
   printSearchHistory(users);
+  getUserData(defaultUser);
+
+  // Optional: prefill the search bar
+  document.querySelector("#search-input").value = defaultUser;
 }
 
 init();
+
 
 function getVideoLink(videoId) {
   var videoLink = `https://www.youtube.com/watch?v=${videoId}`;
