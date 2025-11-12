@@ -63,109 +63,153 @@
   </div>
 </header>
 
-<main class="page-content"> 
+<main class="page-content">
+  <div id="appCard" class="card">
+    <div class="card-content">
 
-    <div id = "mainCards">
-      <div class="cardYT card">
-        <div class="card-content">
-          <!-- Search Display -->
-          <div class="field">
-            <p class="heading">Search YouTube Users</p>
-            <form id = "search-form" class="control">
-              <input id = "search-input" class="input" type="text" placeholder="Enter user..">
-            </form>
+      <!-- Header / Search -->
+      <div class="field">
+        <p class="heading">Search YouTube Users</p>
+        <div class="control" style="display:flex; gap:8px;">
+          <input id="search-input" class="input" type="text" placeholder="Type a YouTube username…">
+          <!-- If you also have a SEARCH button in your JS, keep it here -->
+          <!-- <button id="search-button" class="button is-link" type="button">SEARCH</button> -->
+          <button id="save-to-history" class="button is-link is-light" type="button">
+            Save to History
+          </button>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Account Display -->
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-52x52">
+            <img id="avatarYT" src="https://bulma.io/images/placeholders/96x96.png" alt="Avatar">
+          </figure>
+        </div>
+        <div class="media-content">
+          <p id="userNameYT" class="title is-2">YouTube Name</p>
+          <p id="account" class="subtitle is-5">YouTube Account</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="level is-mobile">
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Views</p>
+            <p id="viewCount" class="title">0</p>
           </div>
-          <hr>
-          <!-- Content Display -->
-          <div class="media">
-            <!-- Avatar Image -->
-            <div class="media-left">
-              <figure class="image is-52x52">
-                <img id ="avatarYT" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-              </figure>
-            </div>
-            <!-- Account Display -->
-            <div class="media-content">
-              <p id = "userNameYT" class="title is-2">Youtube Name</p>
-              <p id = "account" class="subtitle is-5">YouTube Account</p>
-            </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Uploads</p>
+            <p id="uploadCount" class="title">0</p>
           </div>
-        <!-- User Stats -->
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Subscribers</p>
+            <p id="followers" class="title">0</p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">User Since</p>
+            <p id="joinDate" class="title">0</p>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Recent Uploads & Selected Video -->
+      <section>
+        <p class="title is-4">User's Most Recent Uploads</p>
+        <div id="recentUploadsYT">
+          <button class="button is-fullwidth is-light">Video Title</button>
+        </div>
+
+        <hr>
+
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-62x62">
+              <img id="videoThumbnail" src="https://bulma.io/images/placeholders/96x96.png" alt="Video thumbnail">
+            </figure>
+          </div>
+          <div class="media-content">
+            <p id="videoTitle" class="title is-4">Video Title</p>
+          </div>
+          <div class="media-right">
+            <a id="videoLink" href="#">
+              <button class="button is-link is-light">Watch the Video!</button>
+            </a>
+          </div>
+        </div>
+
         <div class="level is-mobile">
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Views</p>
-              <p id="viewCount" class="title">0</p>
+              <p id="viewCountVideo" class="title">0</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">Uploads</p>
-              <p id="uploadCount" class="title">0</p>
+              <p class="heading">Comments</p>
+              <p id="uploadCountVideo" class="title">0</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">Subscribers</p>
-              <p id="followers" class="title">0</p>
-            </div>
-          </div>
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="heading">User Since</p>
-              <p id="joinDate" class="title">0</p>
+              <p class="heading">Likes</p>
+              <p id="likesVideo" class="title">0</p>
             </div>
           </div>
         </div>
-        <hr>
-        <!-- User Activities -->
-        <div>
-          <p class="title is-4">User's Most Recent Uploads: </p>
-          <div id = "recentUploadsYT">
-            <button class="button is-fullwidth is-light">Video Title</button>
-          </div>
-          <hr>
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-62x62">
-                <img id = "videoThumbnail" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-              </figure>
-            </div>
-            <div class="media-content">
-              <p id = "videoTitle" class="title is-4">Video Title</p>
-            </div>
-            <div class = "media-right">
-                <a id ="videoLink" href = "#">
-                  <button class="button is-link is-light">Watch the Video!</button>
-                </a>    
-            </div>
-          </div>
-          <div class="level is-mobile">
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Views</p>
-                <p id="viewCountVideo" class="title">0</p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Comments</p>
-                <p id="uploadCountVideo" class="title">0</p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Likes</p>
-                <p id="likesVideo" class="title">0</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
+      </section>
 
-  </main>
+      <hr>
+
+                    <!-- Chart -->
+      <div class="canvas hide">
+        <!-- Chart.js canvas inserted dynamically -->
+      </div>
+
+      <!-- Search History -->
+      <section>
+        <p class="title is-4 has-text-centered">Recently Viewed YouTube Accounts</p>
+
+        <!-- Error modal (kept) -->
+        <div id="errorModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="errorMessage"></p>
+          </div>
+        </div>
+
+        <div id="searchHistory">
+          <button class="button is-fullwidth is-light">Username</button>
+        </div>
+        <div id="resetHistory" style="margin-top: 8px;">
+          <button class="button is-fullwidth is-light">Reset History</button>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- Top 5 Trending -->
+      <section>
+        <p class="title is-4 has-text-centered">YouTube's Top 5 Trending Videos</p>
+        <div class="trendingData"><!-- JS injects the top 5 here --></div>
+      </section>
+
+    </div>
+  </div>
+</main>
 
     <!-- Footer -->
     <footer class="footer">
@@ -177,57 +221,7 @@
       </div>
     </footer>
 
-   <!-- History Display -->
-    <div class = "searchHistoryCards columns">
-      <div class = "column card">
-        <div class = "card-content">
-          <p class="title is-3 has-text-centered">YouTube Search History</p>
-          <div class=" canvas hide">
-          <canvas id="chart" class="hide" width="4px" height="1px" ></canvas>
-          </div>
-          <!-- Create modal structure -->
-          <div id="errorModal" class="modal">
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <p id="errorMessage"></p>
-            </div>
-          </div>
-          <div id = "searchHistory">
-            <button class="button is-fullwidth is-light">Username</button>
-          </div>
-          <div id = "resetHistory">
-            <button class="button is-fullwidth is-light">Reset History</button>
-          </div>
-        </div>
-      </div>
-    </div> 
 
-    <!-- Top 5 Videos -->
-    <div id = "trendingPage" class = "trendingVideosCards columns">
-      <div id = "trendingYT" class = "column card">
-        <div class = "card-content">
-          <p class="title is-3 has-text-centered">YouTube's Top 5 Trending Videos</p>
-          <div class = "trendingData">
-            <div class="media">
-              <!-- <div class="media-left">
-                <figure class="image is-62x62">
-                  <img id = "trendingThumbnail" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                </figure>
-              </div>
-              <div class="media-content">
-                <p id = "trendingTitle" class="title is-4">Video Title</p>
-              </div>
-              <div class = "media-right">
-                  <a id ="trendingLink" href = "#">
-                    <button class="button is-link is-light">Watch the Video!</button>
-                  </a>    
-              </div>
-            </div> -->
-          </div>     
-        </div> 
-      </div>
-    </div>
-    
     <script
       
       src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"

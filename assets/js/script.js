@@ -9,75 +9,62 @@ var resetHistory = document.getElementById("resetHistory");
 var userVideoList = document.querySelector("#recentUploadsYT");
 const canvas = document.querySelector(".canvas");
 
+// -------------------- Chart.js render --------------------
 function createChart(userData) {
-  // Check if userData and userData.items exist and is not empty
   if (!userData || !userData.items || userData.items.length === 0) {
     showErrorModal("Error: No data available for chart creation.");
     return;
   }
 
+  // Make sure the container is visible
+  if (canvas && canvas.classList.contains("hide")) {
+    canvas.classList.replace("hide", "show");
+  }
+
+  // Clear previous chart and create a fresh <canvas>
   canvas.innerHTML = "";
-
   const uniqueNumber = Math.floor(Math.random() * 1000000);
-
   const newCanvas = document.createElement("canvas");
   newCanvas.id = uniqueNumber;
   canvas.append(newCanvas);
 
   const ctx = document.getElementById(uniqueNumber).getContext("2d");
+  const stats = userData.items[0].statistics;
 
   const data = {
     labels: ["Views", "Uploads", "Subscribers"],
     datasets: [
       {
-        label: "My First Dataset",
+        label: "Channel Stats",
         data: [
-          userData.items[0].statistics.viewCount,
-          userData.items[0].statistics.videoCount,
-          userData.items[0].statistics.subscriberCount,
+          stats.viewCount,
+          stats.videoCount,
+          stats.subscriberCount,
         ],
         backgroundColor: ["rgb(0, 0, 255)", "rgb(0, 0, 255)", "rgb(0, 0, 255)"],
         minBarLength: 10,
         hoverOffset: 4,
       },
-      {
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      },
     ],
   };
 
-  new Chart(ctx, {
-    type: "bar",
-    data: data,
-  });
+  new Chart(ctx, { type: "bar", data });
 }
 
-// Timestamp Fetch
+// -------------------- Timestamp demo fetch (kept) --------------------
 fetch(fetchURL)
   .then((data) => data.json())
   .then((data) => {
-    // Get data from API
-    const items = data.items;
-    const firstItem = items[0];
-    const publishedAt = firstItem.snippet.publishedAt;
+    const items = data.items || [];
+    if (!items[0]) return;
+    const publishedAt = items[0].snippet.publishedAt;
 
-    // Get the Dates
     const postedDate = Date.parse(publishedAt);
     const currentDate = new Date();
-
-    // Get the Milliseconds
     const timelapsed = currentDate.getTime() - postedDate;
 
     let timeStorage = 0;
     let description = "";
-
-    // The Math
     const timeUnits = [
       { unit: "years", divide: 60000 * 60 * 24 * 365 },
       { unit: "weeks", divide: 60000 * 60 * 24 * 7 },
@@ -86,106 +73,116 @@ fetch(fetchURL)
       { unit: "minutes", divide: 60000 },
     ];
 
-    for (const data of timeUnits) {
-      if (timelapsed > data.divide) {
-        timeStorage = timelapsed / data.divide;
-        description = data.unit;
+    for (const u of timeUnits) {
+      if (timelapsed > u.divide) {
+        timeStorage = timelapsed / u.divide;
+        description = u.unit;
       }
     }
   });
 
-var searchFormEl = document.querySelector("#search-form");
+// -------------------- SEARCH button: fetch & display --------------------
+const searchInputEl = document.querySelector("#search-input");
+const searchBtn = document.querySelector("#search-button");
 
-function handleSearchFormSubmit(event) {
-  event.preventDefault();
-
-  var userInput = document.querySelector("#search-input").value;
-
-  if (!userInput) {
-    showErrorModal("User not found, please try another"); // Switch console.log to modal
-    return;
-  }
-
-  // Empty search bar
-  const searchBar = document.querySelector("#search-input");
-  searchBar.value = "";
-
-  var users = readUsersFromStorage();
-  users.unshift(userInput);
-  saveUsersToStorage(users);
-  printSearchHistory(users);
-
-  getUserData(userInput);
+// If you still have a <form id="search-form">, prevent default submit
+const searchFormEl = document.querySelector("#search-form");
+if (searchFormEl) {
+  searchFormEl.addEventListener("submit", (e) => e.preventDefault());
 }
 
-searchFormEl.addEventListener("submit", handleSearchFormSubmit);
+if (searchBtn && searchInputEl) {
+  searchBtn.addEventListener("click", async () => {
+    const user = searchInputEl.value.trim();
+    if (!user) {
+      showErrorModal("Please type a YouTube username.");
+      return;
+    }
+    await getUserData(user);
+  });
+}
 
+// -------------------- Fetch channel data (with fallback by channelId) --------------------
 async function getUserData(userInput) {
-  const searchByUsername = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername=${userInput}&key=${apiKey}`;
+  // 1) Try legacy username route
+  const byUsername = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername=${encodeURIComponent(
+    userInput
+  )}&key=${apiKey}`;
 
-  let userData = await (await fetch(searchByUsername)).json(); //wait for the data and wait for the json
+  try {
+    let userData = await (await fetch(byUsername)).json();
 
-  // Check if userData and userData.items exist and is not empty
-  if (!userData || !userData.items || userData.items.length === 0) {
-    showErrorModal(
-      "User data not found. Please check the username and try again."
-    );
-    return;
+    // 2) If not found, search for a channel and then fetch by id
+    if (!userData || !userData.items || userData.items.length === 0) {
+      const searchEndpoint = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=1&q=${encodeURIComponent(
+        userInput
+      )}&key=${apiKey}`;
+      const found = await (await fetch(searchEndpoint)).json();
+
+      const channelId =
+        found?.items?.[0]?.id?.channelId ||
+        found?.items?.[0]?.snippet?.channelId;
+
+      if (channelId) {
+        const byId = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${channelId}&key=${apiKey}`;
+        userData = await (await fetch(byId)).json();
+      }
+    }
+
+    if (!userData || !userData.items || userData.items.length === 0) {
+      showErrorModal("User/channel not found. Try a different name.");
+      return;
+    }
+
+    // Draw chart and fill UI
+    createChart(userData);
+
+    const channel = userData.items[0];
+    const userVideos = channel.id;
+
+    const avatar = document.querySelector("#avatarYT");
+    if (avatar) avatar.setAttribute("src", channel.snippet.thumbnails?.default?.url || "");
+
+    const userName = document.querySelector("#userNameYT");
+    if (userName) userName.textContent = channel.snippet.title || userInput;
+
+    const accountName = document.querySelector("#account");
+    if (accountName) accountName.textContent = channel.snippet.customUrl || "";
+
+    const views = document.querySelector("#viewCount");
+    if (views) views.textContent = shortNum(parseInt(channel.statistics.viewCount || 0));
+
+    const upload = document.querySelector("#uploadCount");
+    if (upload) upload.textContent = shortNum(parseInt(channel.statistics.videoCount || 0));
+
+    const followers = document.querySelector("#followers");
+    if (followers) followers.textContent = shortNum(parseInt(channel.statistics.subscriberCount || 0));
+
+    const joined = document.querySelector("#joinDate");
+    if (joined) joined.textContent = formatDate(channel.snippet.publishedAt);
+
+    getUserVideoList(userVideos);
+  } catch (e) {
+    console.error(e);
+    showErrorModal("Network error while fetching user data.");
   }
-
-  createChart(userData);
-
-  var userVideos = userData.items[0].id;
-
-  // Account Display
-  const avatar = document.querySelector("#avatarYT");
-  avatar.setAttribute("src", userData.items[0].snippet.thumbnails.default.url);
-
-  const userName = document.querySelector("#userNameYT");
-  userName.textContent = userData.items[0].snippet.title;
-
-  const accountName = document.querySelector("#account");
-  accountName.textContent = userData.items[0].snippet.customUrl;
-
-  // Stats Display
-  const views = document.querySelector("#viewCount");
-  views.textContent = shortNum(
-    parseInt(userData.items[0].statistics.viewCount)
-  );
-
-  const upload = document.querySelector("#uploadCount");
-  upload.textContent = shortNum(
-    parseInt(userData.items[0].statistics.videoCount)
-  );
-
-  const followers = document.querySelector("#followers");
-  followers.textContent = shortNum(
-    parseInt(userData.items[0].statistics.subscriberCount)
-  );
-
-  // Change the format of the JoinDate
-  const joined = document.querySelector("#joinDate");
-  const formattedJoinDate = formatDate(userData.items[0].snippet.publishedAt);
-  joined.textContent = formattedJoinDate;
-
-  getUserVideoList(userVideos);
 }
 
+// -------------------- Trending Top 5 (kept) --------------------
 async function getTrendingData() {
   const popularVideos = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${apiKey}`;
-
-  let popularData = await (await fetch(popularVideos)).json(); //wait for the data and wait for the json
+  let popularData = await (await fetch(popularVideos)).json();
 
   let fiveTrendingCards = document.querySelector(".trendingData");
+  if (!fiveTrendingCards || !popularData.items) return;
 
-  //create five cards that hold the top five trending data videos and information
-  for (let i = 0; i < 5; i++) {
+  fiveTrendingCards.innerHTML = "";
+
+  for (let i = 0; i < Math.min(5, popularData.items.length); i++) {
     let trendingCard = document.createElement("div");
     trendingCard.classList.add("media");
-
     fiveTrendingCards.append(trendingCard);
 
-    //create all necessary elements
     let mediaLeft = document.createElement("div");
     mediaLeft.classList.add("media-left");
     let mediaContent = document.createElement("div");
@@ -199,14 +196,13 @@ async function getTrendingData() {
     let videoLink = document.createElement("a");
     let linkButton = document.createElement("button");
 
-    //add classes and attributes to elements
     figure.classList.add("image", "is-62x62");
     let imageLink = `https://i.ytimg.com/vi/${popularData.items[i].id}/default.jpg`;
     image.setAttribute("src", imageLink);
-    image.setAttribute("alt", "Placeholder image");
+    image.setAttribute("alt", "Video thumbnail");
 
     title.classList.add("title", "is-4");
-    title.innerHTML = popularData.items[i].snippet.localized.title;
+    title.innerHTML = popularData.items[i].snippet?.localized?.title || popularData.items[i].snippet?.title || "Untitled";
 
     let trendingVideoLink = getVideoLink(popularData.items[i].id);
     videoLink.setAttribute("href", trendingVideoLink);
@@ -214,131 +210,119 @@ async function getTrendingData() {
     linkButton.classList.add("button", "is-link", "is-light");
     linkButton.innerHTML = "Watch the video!";
 
-    //append elements to appropriate locations
     figure.append(image);
     videoLink.append(linkButton);
-
     mediaLeft.append(figure);
     mediaContent.append(title);
     mediaRight.append(videoLink);
-
     trendingCard.append(mediaLeft, mediaContent, mediaRight);
   }
 }
 
+// -------------------- Recent uploads list (kept) --------------------
 async function getUserVideoList(userVideos) {
   const userVideosURl = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${userVideos}&part=snippet,id&order=date&maxResults=10`;
-
   let userVideoData = await (await fetch(userVideosURl)).json();
 
-  userVideoList.innerHTML = "";
+  if (!userVideoList || !userVideoData.items) return;
 
-  for (let i = 0; i < 10; i++) {
+  userVideoList.innerHTML = "";
+  for (let i = 0; i < Math.min(10, userVideoData.items.length); i++) {
     const buttonEl = document.createElement("button");
     buttonEl.classList.add("button", "is-light", "is-fullwidth");
-    // Use innerHTML instead of textContent to turn &quot into quotation marks;
     buttonEl.innerHTML = userVideoData.items[i].snippet.title;
     buttonEl.setAttribute("id", userVideoData.items[i].id.videoId);
     userVideoList.append(buttonEl);
   }
 }
 
-userVideoList.addEventListener("click", function (event) {
-  event.preventDefault();
-  let element = event.target;
+if (userVideoList) {
+  userVideoList.addEventListener("click", function (event) {
+    event.preventDefault();
+    let element = event.target;
+    let videoSelected = element.innerHTML;
+    let idSelected = element.id;
 
-  let videoSelected = element.innerHTML;
-  let idSelected = element.id;
+    let videoLink = getVideoLink(idSelected);
+    getVideoData(idSelected);
 
-  //get video link and print individual video data from video Id
-  let videoLink = getVideoLink(idSelected);
-  getVideoData(idSelected);
+    let videoTitle = document.querySelector("#videoTitle");
+    if (videoTitle) videoTitle.textContent = videoSelected;
 
-  //print video data to dom
-  let videoTitle = document.querySelector("#videoTitle");
-  videoTitle.textContent = videoSelected;
+    let buttonEl = document.querySelector("#videoLink");
+    if (buttonEl) {
+      buttonEl.setAttribute("href", videoLink);
+      buttonEl.setAttribute("target", "_blank");
+    }
 
-  let buttonEl = document.querySelector("#videoLink");
-  buttonEl.setAttribute("href", videoLink);
-  buttonEl.setAttribute("target", "_blank");
+    var thumbnailUrl = `https://i.ytimg.com/vi/${idSelected}/default.jpg`;
+    var videoThumbnailUrl = document.querySelector("#videoThumbnail");
+    if (videoThumbnailUrl) videoThumbnailUrl.setAttribute("src", thumbnailUrl);
+  });
+}
 
-  var thumbnailUrl = `https://i.ytimg.com/vi/${idSelected}/default.jpg`;
-  var videoThumbnailUrl = document.querySelector("#videoThumbnail");
-  videoThumbnailUrl.setAttribute("src", thumbnailUrl);
-});
-
+// -------------------- Init: preload default + trending, render chart under first container --------------------
 function init() {
-  // Default user value to load on start
-  const defaultUser = "YouTube";
+  const defaultUser = "YouTube"; // default preload
 
-  // Load trending section
-  getTrendingData();
+  // Prefill the input and render default user's chart + stats
+  const searchBar = document.querySelector("#search-input");
+  if (searchBar) searchBar.value = defaultUser;
 
-  // Read users from localStorage or initialize with default
+  getUserData(defaultUser); // draw chart on load under the first container
+  getTrendingData();        // optional: keep trending section
+
+  // Search History (load/display) remains separate — not triggered by SEARCH
   var users = readUsersFromStorage();
-
   if (users.length === 0) {
     users.push(defaultUser);
     saveUsersToStorage(users);
   }
-
-  // Show search history and load default user data
   printSearchHistory(users);
-  getUserData(defaultUser);
-
-  // Optional: prefill the search bar
-  document.querySelector("#search-input").value = defaultUser;
 }
-
 init();
 
-
+// -------------------- Helpers --------------------
 function getVideoLink(videoId) {
-  var videoLink = `https://www.youtube.com/watch?v=${videoId}`;
-  return videoLink;
+  return `https://www.youtube.com/watch?v=${videoId}`;
 }
 
 async function getVideoData(videoId) {
   var videoDataURL = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`;
-
   let videoData = await (await fetch(videoDataURL)).json();
+  if (!videoData.items || !videoData.items[0]) return;
 
   var viewCount = document.querySelector("#viewCountVideo");
   var commentCount = document.querySelector("#uploadCountVideo");
   var likeCount = document.querySelector("#likesVideo");
 
-  // Convert view count to a more readable format using shortNum function
-  var formattedViewCount = shortNum(
-    parseInt(videoData.items[0].statistics.viewCount)
-  );
+  var formattedViewCount = shortNum(parseInt(videoData.items[0].statistics.viewCount));
+  if (viewCount) viewCount.textContent = formattedViewCount;
+  if (commentCount)
+    commentCount.textContent = shortNum(parseInt(videoData.items[0].statistics.commentCount));
+  if (likeCount)
+    likeCount.textContent = shortNum(parseInt(videoData.items[0].statistics.likeCount));
+}
 
-  viewCount.textContent = formattedViewCount;
-  commentCount.textContent = shortNum(
-    parseInt(videoData.items[0].statistics.commentCount)
-  );
-  likeCount.textContent = shortNum(
-    parseInt(videoData.items[0].statistics.likeCount)
-  );
-} //gets individual video data and prints it to DOM
+if (searchHistory) {
+  searchHistory.addEventListener("click", function (event) {
+    event.preventDefault();
+    var element = event.target;
+    var historyUser = element.innerHTML;
+    getUserData(historyUser);
+    if (canvas) canvas.classList.replace("hide", "show");
+  });
+}
 
-searchHistory.addEventListener("click", function (event) {
-  event.preventDefault();
-  var element = event.target;
-
-  var historyUser = element.innerHTML;
-
-  getUserData(historyUser);
-  canvas.classList.replace("hide", "show");
-}); //provides function for search history buttons
-
-resetHistory.addEventListener("click", function (event) {
-  event.preventDefault();
-
-  localStorage.clear();
-  var users = readUsersFromStorage();
-  printSearchHistory(users);
-  canvas.classList.replace("show", "hide");
-});
+if (resetHistory) {
+  resetHistory.addEventListener("click", function (event) {
+    event.preventDefault();
+    localStorage.clear();
+    var users = readUsersFromStorage();
+    printSearchHistory(users);
+    if (canvas) canvas.classList.replace("show", "hide");
+  });
+}
 
 function readUsersFromStorage() {
   var users = localStorage.getItem("users");
@@ -348,17 +332,16 @@ function readUsersFromStorage() {
     users = [];
   }
   return users;
-} //reads users from storage
+}
 
 function saveUsersToStorage(users) {
   localStorage.setItem("users", JSON.stringify(users));
-} // Takes an array of projects and saves them in localStorage.
+}
 
 function printSearchHistory(users) {
-  users = users.filter((user, index) => users.indexOf(user) === index); // Remove duplicate elements from the 'users' array
-  //print so they are present at page load
+  users = users.filter((user, index) => users.indexOf(user) === index);
+  if (!searchHistory) return;
   searchHistory.innerHTML = "";
-
   users = users.splice(0, 8);
 
   for (let i = 0; i < users.length; i++) {
@@ -366,10 +349,9 @@ function printSearchHistory(users) {
     buttonEl.classList.add("button", "is-fullwidth", "is-light");
     buttonEl.setAttribute("type", "button");
     buttonEl.innerHTML = `${users[i]}`;
-
     searchHistory.append(buttonEl);
   }
-} //prints search history buttons to DOM
+}
 
 // Show Date As MM/DD/YY
 function formatDate(numString) {
@@ -377,33 +359,34 @@ function formatDate(numString) {
   return new Date(numString).toLocaleDateString(undefined, options);
 }
 
-// Convert a large number into a more readable format
+// Short number format
 function shortNum(number) {
   const symbols = ["", " K", " M", " B", " T"];
-  // Calculate the tier of the number
   const tier = (Math.log10(Math.abs(number)) / 3) | 0;
   const roundedNumber = (number / Math.pow(1000, tier)).toFixed(3);
-
-  // Remove trailing zeroes after the decimal point
   const formattedNumber = parseFloat(roundedNumber).toString();
-
   return formattedNumber + symbols[tier];
 }
 
-// Function to show the error modal
+// Error modal (fallbacks to alert if modal isn't in DOM)
 function showErrorModal(errorMessage) {
   var modal = document.getElementById("errorModal");
   var messageElement = document.getElementById("errorMessage");
 
-  messageElement.textContent = errorMessage; // Updates error message displayed in the modal
-  modal.style.display = "block"; // The modal visible on the screen
+  if (!modal || !messageElement) {
+    alert(errorMessage);
+    return;
+  }
+
+  messageElement.textContent = errorMessage;
+  modal.style.display = "block";
 
   var closeBtn = document.querySelector(".close");
-  closeBtn.onclick = function () {
-    modal.style.display = "none";
-  }; // Modal is hidden when the close button is clicked
-
-  // Close the modal when clicking anywhere outside the content
+  if (closeBtn) {
+    closeBtn.onclick = function () {
+      modal.style.display = "none";
+    };
+  }
   window.onclick = function (event) {
     if (event.target === modal) {
       modal.style.display = "none";

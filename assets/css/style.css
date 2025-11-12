@@ -4,10 +4,13 @@
   background-color: white /* optional: keeps the rest of the background visible */
 }
 
-canvas {
-  width: 4px;
-  height: 1px;
+.canvas {
+  width: 1000px;     /* or 80%, or any size you prefer */
+  height: 500px;
+  margin: 0 auto;   /* centers it horizontally */
 }
+
+
 
 .card {
   margin: 10px;
@@ -16,15 +19,13 @@ canvas {
 
 h1 {
   text-align: center;
-  font-size: 35px;
-  margin: 25px;
+  font-size: 50px;
+  
   font-family: "press start 2p", "consolas", "sans-serif";
   color: white;
 }
 .radar {
-  background-color: rgb(0, 0, 255);
-  border: 2px solid;
-  position: center;
+  background: linear-gradient(to top, rgb(0, 0, 255), white);
   left: 10vw;
   top: 7vh;
   z-index: 0;
