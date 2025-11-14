@@ -85,10 +85,34 @@ fetch(fetchURL)
 const searchInputEl = document.querySelector("#search-input");
 const searchBtn = document.querySelector("#search-button");
 
+if (searchInputEl) {
+  searchInputEl.addEventListener("keydown", async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const user = searchInputEl.value.trim();
+      if (!user) {
+        showErrorModal("Please type a YouTube username.");
+        return;
+      }
+      await getUserData(user);
+    }
+  });
+}
+
 // If you still have a <form id="search-form">, prevent default submit
 const searchFormEl = document.querySelector("#search-form");
 if (searchFormEl) {
-  searchFormEl.addEventListener("submit", (e) => e.preventDefault());
+  searchFormEl.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!searchInputEl) return;
+
+    const user = searchInputEl.value.trim();
+    if (!user) {
+      showErrorModal("Please type a YouTube username.");
+      return;
+    }
+    await getUserData(user);
+  });
 }
 
 if (searchBtn && searchInputEl) {
