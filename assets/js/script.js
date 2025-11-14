@@ -251,39 +251,48 @@ async function getUserVideoList(userVideos) {
   if (!userVideoList || !userVideoData.items) return;
 
   userVideoList.innerHTML = "";
+
+  let firstVideoId = null;
+  let firstVideoTitle = null;
+
   for (let i = 0; i < Math.min(10, userVideoData.items.length); i++) {
+    const videoItem = userVideoData.items[i];
+    const title = videoItem.snippet.title;
+    const id = videoItem.id.videoId;
+
     const buttonEl = document.createElement("button");
     buttonEl.classList.add("button", "is-light", "is-fullwidth");
-    buttonEl.innerHTML = userVideoData.items[i].snippet.title;
-    buttonEl.setAttribute("id", userVideoData.items[i].id.videoId);
+    buttonEl.innerHTML = title;
+    buttonEl.setAttribute("id", id);
     userVideoList.append(buttonEl);
+
+    // Store the first video to auto-fill the main section
+    if (i === 0 && id) {
+      firstVideoId = id;
+      firstVideoTitle = title;
+    }
   }
-}
 
-if (userVideoList) {
-  userVideoList.addEventListener("click", function (event) {
-    event.preventDefault();
-    let element = event.target;
-    let videoSelected = element.innerHTML;
-    let idSelected = element.id;
+  // Auto-select the first video (same behavior as clicking its button)
+  if (firstVideoId && firstVideoTitle) {
+    const videoLink = getVideoLink(firstVideoId);
+    getVideoData(firstVideoId);
 
-    let videoLink = getVideoLink(idSelected);
-    getVideoData(idSelected);
+    const videoTitleEl = document.querySelector("#videoTitle");
+    if (videoTitleEl) videoTitleEl.textContent = firstVideoTitle;
 
-    let videoTitle = document.querySelector("#videoTitle");
-    if (videoTitle) videoTitle.textContent = videoSelected;
-
-    let buttonEl = document.querySelector("#videoLink");
+    const buttonEl = document.querySelector("#videoLink");
     if (buttonEl) {
       buttonEl.setAttribute("href", videoLink);
       buttonEl.setAttribute("target", "_blank");
     }
 
-    var thumbnailUrl = `https://i.ytimg.com/vi/${idSelected}/default.jpg`;
-    var videoThumbnailUrl = document.querySelector("#videoThumbnail");
-    if (videoThumbnailUrl) videoThumbnailUrl.setAttribute("src", thumbnailUrl);
-  });
+    const thumbnailUrl = `https://i.ytimg.com/vi/${firstVideoId}/default.jpg`;
+    const videoThumbnailEl = document.querySelector("#videoThumbnail");
+    if (videoThumbnailEl) videoThumbnailEl.setAttribute("src", thumbnailUrl);
+  }
 }
+
 
 // -------------------- Init: preload default + trending, render chart under first container --------------------
 function init() {
