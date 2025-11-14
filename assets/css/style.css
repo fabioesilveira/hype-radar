@@ -1,3 +1,8 @@
+.p-titles{
+  margin-bottom: 20px;
+}
+
+
 .page-content {
     max-width: 1400px; /* controls how wide the page can get */
   margin: 0 auto;    /* centers it horizontally */
@@ -19,7 +24,7 @@
 
 h1 {
   text-align: center;
-  font-size: 50px;
+  font-size: 62px;
   
   font-family: "press start 2p", "consolas", "sans-serif";
   color: white;
@@ -27,7 +32,7 @@ h1 {
 .radar {
   background: linear-gradient(to top, rgb(0, 0, 255), white);
   left: 10vw;
-  top: 7vh;
+  top: 12vh;
   z-index: 0;
   margin-bottom: 30px;
 }
@@ -75,4 +80,10 @@ h1 {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+.img-nav {
+  height: 80px;
+  width: 95%;
+  display: flex;
+  justify-content: center;
 }

@@ -1,231 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-    <!-- Bulma -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
-    />
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="assets/css/style.css" />
 
-    <title>Hype-Radar</title>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+  <!-- Bulma -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <title>Hype-Radar</title>
+</head>
 
 <body>
   <!-- Navigation -->
-<header>
-  <nav class="navbar is-transparent">
-        <img src="assets/images/radar2.png" alt="Bulma: a modern CSS framework based on Flexbox" width="65" height="62">
-     
-      <div class="navbar-burger" data-target="navbarExampleTransparentExample">
-        <span></span>
-        <span></span>
-        <span></span>
+  <header>
+    <nav> 
+    <div class="img-nav">  
+      <img src="assets/images/radar2.png" alt="Bulma: a modern CSS framework based on Flexbox" width="95" height="62">
       </div>
-    <div id="navbarExampleTransparentExample" class="navbar-menu">
-      <div class="navbar-start">
-        <a id = "homeTab" class="navbar-item" >
-          Home
-        </a>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" >
-            Menu
-          </a>
-          <div class="navbar-dropdown is-boxed">
-            <a id = "searchHistoryTab" class="navbar-item" href="#searchHistory">
-              Search History
-            </a>
-            <a id = "trendingVideosTab" class="navbar-item" href="#trendingPage">
-              Trending Videos
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item" href="https://www.youtube.com/" target = "_blank">
-              Youtube
-            </a>
-          </div>
-        </div>
-      </div>
+    <div class="radar">
+      <h1>Hype Radar</h1>
     </div>
-  </nav>
-  <div class="radar">
-    <h1>Hype Radar</h1>
-  </div>
-</header>
+    </nav>
+  </header>
 
-<main class="page-content">
-  <div id="appCard" class="card">
-    <div class="card-content">
+  <main class="page-content">
+    <div id="appCard" class="card">
+      <div class="card-content">
 
-      <!-- Header / Search -->
-      <div class="field">
-        <p class="heading">Search YouTube Users</p>
-        <div class="control" style="display:flex; gap:8px;">
-          <input id="search-input" class="input" type="text" placeholder="Type a YouTube username…">
-          <!-- If you also have a SEARCH button in your JS, keep it here -->
-          <!-- <button id="search-button" class="button is-link" type="button">SEARCH</button> -->
-          <button id="save-to-history" class="button is-link is-light" type="button">
-            Save to History
-          </button>
-        </div>
-      </div>
-
-      <hr>
-
-      <!-- Account Display -->
-      <div class="media">
-        <div class="media-left">
-          <figure class="image is-52x52">
-            <img id="avatarYT" src="https://bulma.io/images/placeholders/96x96.png" alt="Avatar">
-          </figure>
-        </div>
-        <div class="media-content">
-          <p id="userNameYT" class="title is-2">YouTube Name</p>
-          <p id="account" class="subtitle is-5">YouTube Account</p>
-        </div>
-      </div>
-
-      <!-- Stats -->
-      <div class="level is-mobile">
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">Views</p>
-            <p id="viewCount" class="title">0</p>
+        <!-- Header / Search -->
+        <div class="field">
+          <p class="heading">Search YouTube Users</p>
+          <div class="control" style="display:flex; gap:8px;">
+            <input id="search-input" class="input" type="text" placeholder="Type a YouTube username…">
+            <!-- If you also have a SEARCH button in your JS, keep it here -->
+            <!-- <button id="search-button" class="button is-link" type="button">SEARCH</button> -->
+            <button id="search-button" class="button is-link is-light" type="button">
+  Search
+</button>
           </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">Uploads</p>
-            <p id="uploadCount" class="title">0</p>
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">Subscribers</p>
-            <p id="followers" class="title">0</p>
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">User Since</p>
-            <p id="joinDate" class="title">0</p>
-          </div>
-        </div>
-      </div>
-
-      <hr>
-
-      <!-- Recent Uploads & Selected Video -->
-      <section>
-        <p class="title is-4">User's Most Recent Uploads</p>
-        <div id="recentUploadsYT">
-          <button class="button is-fullwidth is-light">Video Title</button>
         </div>
 
         <hr>
 
+        <!-- Account Display -->
         <div class="media">
           <div class="media-left">
-            <figure class="image is-62x62">
-              <img id="videoThumbnail" src="https://bulma.io/images/placeholders/96x96.png" alt="Video thumbnail">
+            <figure class="image is-52x52">
+              <img id="avatarYT" src="https://bulma.io/images/placeholders/96x96.png" alt="Avatar">
             </figure>
           </div>
           <div class="media-content">
-            <p id="videoTitle" class="title is-4">Video Title</p>
-          </div>
-          <div class="media-right">
-            <a id="videoLink" href="#">
-              <button class="button is-link is-light">Watch the Video!</button>
-            </a>
+            <p id="userNameYT" class="title is-2">YouTube Name</p>
+            <p id="account" class="subtitle is-5">YouTube Account</p>
           </div>
         </div>
 
+        <!-- Stats -->
         <div class="level is-mobile">
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Views</p>
-              <p id="viewCountVideo" class="title">0</p>
+              <p id="viewCount" class="title">0</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">Comments</p>
-              <p id="uploadCountVideo" class="title">0</p>
+              <p class="heading">Uploads</p>
+              <p id="uploadCount" class="title">0</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">Likes</p>
-              <p id="likesVideo" class="title">0</p>
+              <p class="heading">Subscribers</p>
+              <p id="followers" class="title">0</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">User Since</p>
+              <p id="joinDate" class="title">0</p>
             </div>
           </div>
         </div>
-      </section>
 
-      <hr>
+        <hr>
 
-                    <!-- Chart -->
-      <div class="canvas hide">
-        <!-- Chart.js canvas inserted dynamically -->
+        <!-- Recent Uploads & Selected Video -->
+        <section>
+          <div class="p-titles"> 
+          <p class="title is-10 has-text-centered p-titles">User's Most Recent Uploads</p>
+          </div>
+          <div id="recentUploadsYT">
+            <button class="button is-fullwidth is-light">Video Title</button>
+          </div>
+
+          <hr>
+
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-62x62">
+                <img id="videoThumbnail" src="https://bulma.io/images/placeholders/96x96.png" alt="Video thumbnail">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p id="videoTitle" class="title is-4">Video Title</p>
+            </div>
+            <div class="media-right">
+              <a id="videoLink" href="#">
+                <button class="button is-link is-light">Watch the Video!</button>
+              </a>
+            </div>
+          </div>
+
+          <div class="level is-mobile">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Views</p>
+                <p id="viewCountVideo" class="title">0</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Comments</p>
+                <p id="uploadCountVideo" class="title">0</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Likes</p>
+                <p id="likesVideo" class="title">0</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr>
+
+        <!-- Chart -->
+        <div class="canvas hide">
+          <!-- Chart.js canvas inserted dynamically -->
+        </div>
+
+        <hr>
+
+        <!-- Search History -->
+        <section>
+          <p class="title is-10 has-text-centered p-titles">Recently Viewed YouTube Accounts</p>
+
+          <!-- Error modal (kept) -->
+          <div id="errorModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p id="errorMessage"></p>
+            </div>
+          </div>
+
+          <div id="searchHistory">
+            <button class="button is-fullwidth is-light">Username</button>
+          </div>
+          <div id="resetHistory" style="margin-top: 8px;">
+            <button class="button is-fullwidth is-light">Reset History</button>
+          </div>
+        </section>
+
+        <hr>
+
+        <!-- Top 5 Trending -->
+        <section>
+          <p class="title is-10 has-text-centered p-titles">YouTube's Top 5 Trending Videos</p>
+          <div class="trendingData"><!-- JS injects the top 5 here --></div>
+        </section>
+
       </div>
-
-      <!-- Search History -->
-      <section>
-        <p class="title is-4 has-text-centered">Recently Viewed YouTube Accounts</p>
-
-        <!-- Error modal (kept) -->
-        <div id="errorModal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="errorMessage"></p>
-          </div>
-        </div>
-
-        <div id="searchHistory">
-          <button class="button is-fullwidth is-light">Username</button>
-        </div>
-        <div id="resetHistory" style="margin-top: 8px;">
-          <button class="button is-fullwidth is-light">Reset History</button>
-        </div>
-      </section>
-
-      <hr>
-
-      <!-- Top 5 Trending -->
-      <section>
-        <p class="title is-4 has-text-centered">YouTube's Top 5 Trending Videos</p>
-        <div class="trendingData"><!-- JS injects the top 5 here --></div>
-      </section>
-
     </div>
-  </div>
-</main>
+  </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          <strong>Hype Radar</strong> by <a href="https://github.com/Clkwong3">Clarice Kwong, <a href="https://github.com/fabioesilveira">Fabio Silveira,</a> <a href="https://github.com/kthames">Katherine Thames,</a> <a href="https://github.com/ralstonb9"> and Ralston Brown</a>
-            © 2023
-        </p>
-      </div>
-    </footer>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>Hype Radar</strong> by <a href="https://github.com/Clkwong3">Clarice Kwong, <a
+            href="https://github.com/fabioesilveira">Fabio Silveira,</a> <a href="https://github.com/kthames">Katherine
+            Thames,</a> <a href="https://github.com/ralstonb9"> and Ralston Brown</a>
+          © 2023
+      </p>
+    </div>
+  </footer>
 
 
-    <script
-      
-      src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"
-    ></script>
-    <script src="assets/js/script.js"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+
 </html>
