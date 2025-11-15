@@ -192,6 +192,36 @@ async function getUserData(userInput) {
   }
 }
 
+if (userVideoList) {
+  userVideoList.addEventListener("click", function (event) {
+    event.preventDefault();
+    const element = event.target;
+
+    // Make sure we clicked a button
+    if (!element || element.tagName !== "BUTTON") return;
+
+    const videoSelected = element.innerHTML;
+    const idSelected = element.id;
+
+    const videoLink = getVideoLink(idSelected);
+    getVideoData(idSelected);
+
+    const videoTitle = document.querySelector("#videoTitle");
+    if (videoTitle) videoTitle.textContent = videoSelected;
+
+    const buttonEl = document.querySelector("#videoLink");
+    if (buttonEl) {
+      buttonEl.setAttribute("href", videoLink);
+      buttonEl.setAttribute("target", "_blank");
+    }
+
+    const thumbnailUrl = `https://i.ytimg.com/vi/${idSelected}/default.jpg`;
+    const videoThumbnailUrl = document.querySelector("#videoThumbnail");
+    if (videoThumbnailUrl) videoThumbnailUrl.setAttribute("src", thumbnailUrl);
+  });
+}
+
+
 // -------------------- Trending Top 5 (kept) --------------------
 async function getTrendingData() {
   const popularVideos = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${apiKey}`;
