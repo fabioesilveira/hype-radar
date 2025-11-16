@@ -19,13 +19,13 @@
 <body>
   <!-- Navigation -->
   <header>
-    <nav> 
-    <div class="img-nav">  
-      <img src="assets/images/radar2.png" alt="Bulma: a modern CSS framework based on Flexbox" width="95" height="62">
+    <nav>
+      <div class="img-nav">
+        <img src="assets/images/radar2.png" alt="Bulma: a modern CSS framework based on Flexbox" width="95" height="62">
       </div>
-    <div class="radar">
-      <h1>Hype Radar</h1>
-    </div>
+      <div class="radar">
+        <h1>Hype Radar</h1>
+      </div>
     </nav>
   </header>
 
@@ -41,8 +41,8 @@
             <!-- If you also have a SEARCH button in your JS, keep it here -->
             <!-- <button id="search-button" class="button is-link" type="button">SEARCH</button> -->
             <button id="search-button" class="button is-link is-light" type="button">
-  Search
-</button>
+              Search
+            </button>
           </div>
         </div>
 
@@ -50,8 +50,8 @@
 
         <!-- Account Display -->
 
-                  <h2 class="heading first">YouTube Account:</h2>
-        
+        <h2 class="heading first">YouTube Account:</h2>
+
         <div class="media">
           <div class="media-left">
             <figure class="image is-52x52">
@@ -96,11 +96,11 @@
 
         <!-- Recent Uploads & Selected Video -->
         <section>
-          <div> 
-          <h2 class="heading first">Most Recent Uploads:</h2>
+          <div>
+            <h2 class="heading first">Most Recent Uploads:</h2>
           </div>
 
-<div class="media">
+          <div class="media">
             <div class="media-left">
               <figure class="image is-62x62">
                 <img id="videoThumbnail" src="https://bulma.io/images/placeholders/96x96.png" alt="Video thumbnail">
@@ -137,13 +137,15 @@
             </div>
           </div>
 
+          <h3 class="heading ">choose a different video</h3>
+
           <div id="recentUploadsYT">
             <button class="button is-fullwidth is-light">Video Title</button>
           </div>
 
           <hr>
 
-          
+
         </section>
 
         <hr>
@@ -157,7 +159,7 @@
 
         <!-- Search History -->
         <section>
-          <p class="title is-10 has-text-centered p-titles">Recently Viewed YouTube Accounts</p>
+          <h2 class="heading first">Recently Viewed Youtube Accounts:</h2>
 
           <!-- Error modal (kept) -->
           <div id="errorModal" class="modal">
@@ -179,7 +181,7 @@
 
         <!-- Top 5 Trending -->
         <section>
-          <p class="title is-10 has-text-centered p-titles">YouTube's Top 5 Trending Videos</p>
+          <h2 class="heading first">YouTube's Current Top 5 Trending Videos:</h2>
           <div class="trendingData"><!-- JS injects the top 5 here --></div>
         </section>
 
