@@ -95,6 +95,7 @@ if (searchInputEl) {
         return;
       }
       await getUserData(user);
+      addUserToHistory(user); // <-- NEW
     }
   });
 }
@@ -112,6 +113,7 @@ if (searchFormEl) {
       return;
     }
     await getUserData(user);
+    addUserToHistory(user); // <-- NEW
   });
 }
 
@@ -123,6 +125,7 @@ if (searchBtn && searchInputEl) {
       return;
     }
     await getUserData(user);
+    addUserToHistory(user); // <-- NEW
   });
 }
 
@@ -366,6 +369,15 @@ async function getVideoData(videoId) {
   if (likeCount)
     likeCount.textContent = shortNum(parseInt(videoData.items[0].statistics.likeCount));
 }
+
+// --- NEW: helper to save searched users to history/localStorage ---
+function addUserToHistory(user) {
+  var users = readUsersFromStorage();
+  users.push(user);
+  saveUsersToStorage(users);
+  printSearchHistory(users);
+}
+// --------------------------------------------------
 
 if (searchHistory) {
   searchHistory.addEventListener("click", function (event) {
