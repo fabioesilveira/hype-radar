@@ -258,7 +258,7 @@ async function getTrendingData() {
     image.setAttribute("src", imageLink);
     image.setAttribute("alt", "Video thumbnail");
 
-    title.classList.add("title", "is-4");
+    title.classList.add("title", "trending-title");
     title.innerHTML = popularData.items[i].snippet?.localized?.title || popularData.items[i].snippet?.title || "Untitled";
 
     let trendingVideoLink = getVideoLink(popularData.items[i].id);

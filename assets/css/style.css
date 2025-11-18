@@ -1,11 +1,10 @@
 .first{
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   margin-top: 30px;
   font-size: 20px;
    font-family: "press start 2p", "consolas", "sans-serif";
-   color: black;
+   color: blue;
 }
-
 
 .page-content {
     max-width: 1300px; /* controls how wide the page can get */
@@ -19,8 +18,6 @@
   margin: 0 auto;   /* centers it horizontally */
 }
 
-
-
 .card {
   margin: 10px;
   color: blue;
@@ -33,6 +30,7 @@ h1 {
   font-family: "press start 2p", "consolas", "sans-serif";
   color: white;
 }
+
 .radar {
   background: linear-gradient(to top, rgb(0, 0, 255), white);
   left: 10vw;
@@ -90,4 +88,9 @@ h1 {
   width: 95%;
   display: flex;
   justify-content: center;
+}
+
+.trending-title {
+  font-size: 18px !important;   /* smaller text */
+  line-height: 1.2;
 }
