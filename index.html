@@ -34,6 +34,7 @@
       <div class="card-content">
 
         <!-- Header / Search -->
+        <h2 class="heading first">Search</h2>
         <div class="field">
           <p class="heading">Search YouTube Users</p>
           <div class="control" style="display:flex; gap:8px;">
@@ -101,7 +102,7 @@
           </div>
 
 
-           <h3 class="heading ">video</h3>
+          <h3 class="heading ">video</h3>
           <div class="media">
             <div class="media-left">
               <figure class="image is-62x62">
@@ -158,36 +159,41 @@
 
         <hr>
 
-        <!-- Search History -->
-        <section>
-          <h2 class="heading first">Recently Viewed Youtube Accounts</h2>
-
-          <!-- Error modal (kept) -->
-          <div id="errorModal" class="modal">
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <p id="errorMessage"></p>
-            </div>
-          </div>
-
-          <div id="searchHistory">
-            <button class="button is-fullwidth is-light">Username</button>
-          </div>
-          <div id="resetHistory" style="margin-top: 8px;">
-            <button class="button is-fullwidth is-light">Reset History</button>
-          </div>
-        </section>
-
-        <hr>
-
         <!-- Top 5 Trending -->
         <section>
           <h2 class="heading first">YouTube's Current Top 5 Trending Videos</h2>
           <div class="trendingData"><!-- JS injects the top 5 here --></div>
         </section>
 
+        <hr>
+
+           <!-- Search History -->
+    <section>
+      <h2 class="heading first">Recently Viewed Youtube Accounts</h2>
+
+      <!-- Error modal (kept) -->
+      <div id="errorModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p id="errorMessage"></p>
+        </div>
+      </div>
+
+      <div id="searchHistory">
+        <button class="button is-fullwidth is-light">Username</button>
+      </div>
+      <div id="resetHistory" style="margin-top: 8px;">
+        <button class="button is-fullwidth is-light">Reset History</button>
+      </div>
+    </section>
+
+    <hr>
+
       </div>
     </div>
+
+ 
+
   </main>
 
   <!-- Footer -->
