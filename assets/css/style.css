@@ -1,21 +1,26 @@
-.first{
+.first {
   margin-bottom: 50px;
   margin-top: 30px;
   font-size: 20px;
-   font-family: "press start 2p", "consolas", "sans-serif";
-   color: blue;
+  font-family: "press start 2p", "consolas", "sans-serif";
+  color: blue;
 }
 
 .page-content {
-    max-width: 1300px; /* controls how wide the page can get */
-  margin: 0 auto;    /* centers it horizontally */
-  background-color: white /* optional: keeps the rest of the background visible */
+  max-width: 1300px;
+  /* controls how wide the page can get */
+  margin: 0 auto;
+  /* centers it horizontally */
+  background-color: white
+    /* optional: keeps the rest of the background visible */
 }
 
 .canvas {
-  width: 1000px;     /* or 80%, or any size you prefer */
+  width: 1000px;
+  /* or 80%, or any size you prefer */
   height: 500px;
-  margin: 0 auto;   /* centers it horizontally */
+  margin: 0 auto;
+  /* centers it horizontally */
 }
 
 .card {
@@ -26,7 +31,7 @@
 h1 {
   text-align: center;
   font-size: 62px;
-  
+
   font-family: "press start 2p", "consolas", "sans-serif";
   color: white;
 }
@@ -83,6 +88,7 @@ h1 {
   text-decoration: none;
   cursor: pointer;
 }
+
 .img-nav {
   height: 80px;
   width: 95%;
@@ -91,6 +97,15 @@ h1 {
 }
 
 .trending-title {
-  font-size: 18px !important;   /* smaller text */
+  font-size: 18px !important;
+  /* smaller text */
   line-height: 1.2;
+}
+
+.first1 {
+  margin-bottom: 30px;
+  margin-top: 20px;
+  font-size: 20px;
+  font-family: "press start 2p", "consolas", "sans-serif";
+  color: blue;
 }

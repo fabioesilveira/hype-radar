@@ -131,18 +131,30 @@ if (searchBtn && searchInputEl) {
 
 // -------------------- Fetch channel data (with fallback by channelId) --------------------
 async function getUserData(userInput) {
-  // 1) Try legacy username route
+  // 🔹 Normalize input: trim, drop leading "@", lowercase, remove spaces
+  const rawInput = (userInput || "").trim();
+  if (!rawInput) {
+    showErrorModal("Please type a YouTube username or channel name.");
+    return;
+  }
+
+  const normalizedUsername = rawInput
+    .replace(/^@/, "")        // remove '@' if user types a handle
+    .toLowerCase()
+    .replace(/\s+/g, "");     // remove all spaces
+
+  // 1) Try legacy username route using normalized version
   const byUsername = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername=${encodeURIComponent(
-    userInput
+    normalizedUsername
   )}&key=${apiKey}`;
 
   try {
     let userData = await (await fetch(byUsername)).json();
 
-    // 2) If not found, search for a channel and then fetch by id
+    // 2) If not found, search for a channel and then fetch by id (using original text, with spaces)
     if (!userData || !userData.items || userData.items.length === 0) {
       const searchEndpoint = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=1&q=${encodeURIComponent(
-        userInput
+        rawInput
       )}&key=${apiKey}`;
       const found = await (await fetch(searchEndpoint)).json();
 
@@ -171,7 +183,7 @@ async function getUserData(userInput) {
     if (avatar) avatar.setAttribute("src", channel.snippet.thumbnails?.default?.url || "");
 
     const userName = document.querySelector("#userNameYT");
-    if (userName) userName.textContent = channel.snippet.title || userInput;
+    if (userName) userName.textContent = channel.snippet.title || rawInput;
 
     const accountName = document.querySelector("#account");
     if (accountName) accountName.textContent = channel.snippet.customUrl || "";
