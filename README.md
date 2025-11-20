@@ -14,11 +14,11 @@ Bulma for framework and design, Youtube data API, Chart.js.
 
 ## Credits
 
-Project By Clarice Kwong, Fabio Silveira, Katherine Thames, Ralston Brown.
+
 
 ## Deployed Site
 
-![Screenshot of Deployed Website](assets/images/Deployed-HypeRadar.png)
+![Screenshot of Deployed Website]()
 
 [Live Demo Link](https://fabioesilveira.github.io/hype-radar/)
 
