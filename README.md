@@ -44,11 +44,8 @@ GitHub: @fabioesilveira
 
 ## Deployed Site
 
-![Screenshot of Deployed Website](/assets/images/Screenshot1.png)
+![Screenshot of Deployed Website](/assets/images/Screenshot.png)
 
-![Screenshot of Deployed Website](/assets/images/Screenshot2.png)
-
-![Screenshot of Deployed Website](/assets/images/Screenshot3.png)
 
 [Live Demo Link](https://fabioesilveira.github.io/hype-radar/)
 
