@@ -1,24 +1,54 @@
-# Hype-Radar
+# 📈 Hype Radar  
+Hype Radar is a media-tracking web app that fetches data from the YouTube API to display user channel statistics and activity.
+It allows individuals or organizations to monitor their YouTube presence by tracking metrics such as views, uploads, subscribers, likes, and general engagement trends.
 
-## Description
+This tool helps users understand how their content or brand is being perceived by the public. By visualizing real-time YouTube data, Hype Radar delivers clear insights into channel growth, audience interaction, and overall media impact — all through a lightweight interface built with Vanilla JavaScript, HTML, CSS, Bulma, and Chart.js.
 
-Hype Radar is a media tracker software that allows individuals or organizations to monitor and track their Youtube media presence. It helps keep track of views, uploads, subscribers, likes, and other forms of media coverage that mention a specific person or brand. By using Hype Radar, users can gain valuable insights into how their image is being portrayed and received by the public.
+[Live Demo Link](https://fabioesilveira.github.io/hype-radar/)
 
-## Usage
+---
 
-Enter a Youtube account to check users views, uploads, subscribers and Youtube's joined date. Check the user's most recent uploads and choose a video to watch and be redirected to Youtube. On Youtube search history, click the account you've entered prior to display a chart with views, uploads and subscribers. Check the Youtube's top 5 trending videos.
+## 🚀 Features
 
-## Technologies used
+### Keyword Trend Search  
+- Enter a keyword and fetch trend-related data instantly.  
+- Displays data using clean Bulma-styled cards.
 
-Bulma for framework and design, Youtube data API, Chart.js.
+### Dynamic Charts (Chart.js)  
+- Renders real-time charts based on API responses.  
+- Smooth chart animations and responsive resizing.  
+- Supports line charts, bar charts, or future custom charts.
+
+### Vanilla JavaScript Architecture  
+- No frameworks required — fast, simple, and easy to deploy.  
+- DOM manipulation done manually for full control.  
+- Modular JS functions for fetching, rendering, and UI updates.
+
+## Tech Stack
+
+- **JavaScript (ES6+)**  
+- **HTML5**  
+- **CSS3**  
+- **Bulma CSS Framework**  
+- **Chart.js**  
+- **Fetch API**  
+- **Google fonts** 
+
+---
 
 ## Credits
 
+Fabio Silveira
+GitHub: @fabioesilveira
 
 
 ## Deployed Site
 
-![Screenshot of Deployed Website]()
+![Screenshot of Deployed Website](/assets/images/Screenshot1.png)
+
+![Screenshot of Deployed Website](/assets/images/Screenshot2.png)
+
+![Screenshot of Deployed Website](/assets/images/Screenshot3.png)
 
 [Live Demo Link](https://fabioesilveira.github.io/hype-radar/)
 
