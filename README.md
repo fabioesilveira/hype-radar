@@ -1,4 +1,4 @@
-# 📈 Hype Radar  
+# Hype Radar  
 Hype Radar is a media-tracking web app that fetches data from the YouTube API to display user channel statistics and activity.
 It allows individuals or organizations to monitor their YouTube presence by tracking metrics such as views, uploads, subscribers, likes, and general engagement trends.
 
@@ -8,7 +8,7 @@ This tool helps users understand how their content or brand is being perceived b
 
 ---
 
-## 🚀 Features
+## Features
 
 ### Keyword Trend Search  
 - Enter a keyword and fetch trend-related data instantly.  
