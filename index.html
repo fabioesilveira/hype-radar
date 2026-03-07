@@ -7,6 +7,8 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
   <!-- Bulma -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -19,10 +21,8 @@
 <body>
   <!-- Navigation -->
   <header>
+
     <nav>
-      <div class="img-nav">
-        <img src="assets/images/radar2.png" alt="Bulma: a modern CSS framework based on Flexbox" width="95" height="62">
-      </div>
       <div class="radar">
         <h1>Hype Radar</h1>
       </div>
@@ -33,8 +33,16 @@
     <div id="appCard" class="card">
       <div class="card-content">
 
-        <!-- Header / Search -->
-        <h2 class="heading first1">Search</h2>
+        <div class="search-header">
+
+          <div class="brand-row">
+            <img src="assets/images/radar2.png" class="logo-radar">
+            <span class="slogan">Track YouTube Channel Insights</span>
+          </div>
+
+          <h2 class="heading first1">SEARCH YOUTUBE CHANNEL</h2>
+
+        </div>
         <div class="field">
           <p class="heading">Type a Youtube username</p>
           <div class="control" style="display:flex; gap:8px;">
@@ -51,7 +59,7 @@
 
         <!-- Account Display -->
 
-        <h2 class="heading first">YouTube Account</h2>
+        <h2 class="heading first1">Channel Overview</h2>
 
         <div class="media">
           <div class="media-left">
@@ -60,7 +68,7 @@
             </figure>
           </div>
           <div class="media-content">
-            <p id="userNameYT" class="title is-2">YouTube Name</p>
+            <p id="userNameYT" class="title is-4">YouTube Name</p>
             <p id="account" class="subtitle is-5">YouTube Account</p>
           </div>
         </div>
@@ -70,25 +78,25 @@
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Views</p>
-              <p id="viewCount" class="title">0</p>
+              <p id="viewCount" class="title is-4">0</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Uploads</p>
-              <p id="uploadCount" class="title">0</p>
+              <p id="uploadCount" class="title is-4">0</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Subscribers</p>
-              <p id="followers" class="title">0</p>
+              <p id="followers" class="title is-4">0</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">User Since</p>
-              <p id="joinDate" class="title">0</p>
+              <p id="joinDate" class="title is-4">0</p>
             </div>
           </div>
         </div>
@@ -98,7 +106,7 @@
         <!-- Recent Uploads & Selected Video -->
         <section>
           <div>
-            <h2 class="heading first">Most Recent Uploads</h2>
+            <h2 class="heading first1">Most Recent Uploads</h2>
           </div>
 
 
@@ -110,7 +118,7 @@
               </figure>
             </div>
             <div class="media-content">
-              <p id="videoTitle" class="title is-4">Video Title</p>
+              <p id="videoTitle" class="title is-4 title-video">Video Title</p>
             </div>
             <div class="media-right">
               <a id="videoLink" href="#">
@@ -123,19 +131,19 @@
             <div class="level-item has-text-centered">
               <div>
                 <p class="heading">Views</p>
-                <p id="viewCountVideo" class="title">0</p>
+                <p id="viewCountVideo" class="title is-4">0</p>
               </div>
             </div>
             <div class="level-item has-text-centered">
               <div>
                 <p class="heading">Comments</p>
-                <p id="uploadCountVideo" class="title">0</p>
+                <p id="uploadCountVideo" class="title is-4">0</p>
               </div>
             </div>
             <div class="level-item has-text-centered">
               <div>
                 <p class="heading">Likes</p>
-                <p id="likesVideo" class="title">0</p>
+                <p id="likesVideo" class="title is-4">0</p>
               </div>
             </div>
           </div>
@@ -152,7 +160,7 @@
         <hr>
 
         <!-- Chart -->
-        <h2 class="heading first">Channel Statistics</h2>
+        <h2 class="heading first1">Channel Statistics</h2>
         <div class="canvas hide">
           <!-- Chart.js canvas inserted dynamically -->
         </div>
@@ -161,38 +169,38 @@
 
         <!-- Top 5 Trending -->
         <section>
-          <h2 class="heading first">YouTube's Current Top 5 Trending Videos</h2>
+          <h2 class="heading first1">YouTube's Current Top 5 Trending Videos</h2>
           <div class="trendingData"><!-- JS injects the top 5 here --></div>
         </section>
 
         <hr>
 
-           <!-- Search History -->
-    <section>
-      <h2 class="heading first">Recently Viewed Youtube Accounts</h2>
+        <!-- Search History -->
+        <section>
+          <h2 class="heading first1">Recently Viewed Youtube Accounts</h2>
 
-      <!-- Error modal (kept) -->
-      <div id="errorModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p id="errorMessage"></p>
-        </div>
-      </div>
+          <!-- Error modal (kept) -->
+          <div id="errorModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p id="errorMessage"></p>
+            </div>
+          </div>
 
-      <div id="searchHistory">
-        <button class="button is-fullwidth is-light">Username</button>
-      </div>
-      <div id="resetHistory" style="margin-top: 8px;">
-        <button class="button is-fullwidth is-light">Reset History</button>
-      </div>
-    </section>
+          <div id="searchHistory">
+            <button class="button is-fullwidth is-light">Username</button>
+          </div>
+          <div id="resetHistory" style="margin-top: 8px;">
+            <button class="button is-fullwidth is-light">Reset History</button>
+          </div>
+        </section>
 
-    <hr>
+        <hr>
 
       </div>
     </div>
 
- 
+
 
   </main>
 

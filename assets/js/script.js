@@ -41,7 +41,7 @@ function createChart(userData) {
           stats.videoCount,
           stats.subscriberCount,
         ],
-        backgroundColor: ["rgb(0, 0, 255)", "rgb(0, 0, 255)", "rgb(0, 0, 255)"],
+        backgroundColor: ["#333;", "#333;", "rgb(0, 0, 255)"],
         minBarLength: 10,
         hoverOffset: 4,
       },
