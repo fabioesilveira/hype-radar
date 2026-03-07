@@ -43,7 +43,7 @@ h1 {
   z-index: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   padding: 2px 0;
-  margin-bottom: 30px;
+  margin-bottom: 45px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -157,4 +157,45 @@ h1 {
   font-size: 24px;
   color: #6b6b6b;
   letter-spacing: 1px;
+}
+
+.trendingData .media {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.trendingData .media-left {
+  flex-shrink: 0;
+}
+
+.trendingData .media-content {
+  display: flex;
+  align-items: center;
+  min-height: 62px;
+}
+
+.trending-title {
+  font-size: 17px !important;
+  line-height: 1.3;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  min-height: 62px;
+}
+
+.trendingData .media-right {
+  margin-left: auto;
+  display: flex;
+  align-items: left;
+}
+
+.media {
+  align-items: center;
+}
+
+.media-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

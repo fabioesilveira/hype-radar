@@ -10,45 +10,58 @@ var userVideoList = document.querySelector("#recentUploadsYT");
 const canvas = document.querySelector(".canvas");
 
 // -------------------- Chart.js render --------------------
-function createChart(userData) {
-  if (!userData || !userData.items || userData.items.length === 0) {
-    showErrorModal("Error: No data available for chart creation.");
+function createVideoChart(videoData) {
+  if (!videoData || !videoData.items || videoData.items.length === 0) {
+    showErrorModal("Error: No video data available for chart creation.");
     return;
   }
 
-  // Make sure the container is visible
   if (canvas && canvas.classList.contains("hide")) {
     canvas.classList.replace("hide", "show");
   }
 
-  // Clear previous chart and create a fresh <canvas>
+  // limpa o chart anterior
   canvas.innerHTML = "";
-  const uniqueNumber = Math.floor(Math.random() * 1000000);
+
   const newCanvas = document.createElement("canvas");
-  newCanvas.id = uniqueNumber;
+  newCanvas.id = "videoStatsChart";
   canvas.append(newCanvas);
 
-  const ctx = document.getElementById(uniqueNumber).getContext("2d");
-  const stats = userData.items[0].statistics;
+  const ctx = document.getElementById("videoStatsChart").getContext("2d");
+  const stats = videoData.items[0].statistics;
 
   const data = {
-    labels: ["Views", "Uploads", "Subscribers"],
+    labels: ["Views", "Likes", "Comments"],
     datasets: [
       {
-        label: "Channel Stats",
+        label: "Video Stats",
         data: [
-          stats.viewCount,
-          stats.videoCount,
-          stats.subscriberCount,
+          parseInt(stats.viewCount || 0),
+          parseInt(stats.likeCount || 0),
+          parseInt(stats.commentCount || 0),
         ],
-        backgroundColor: ["#333;", "#333;", "rgb(0, 0, 255)"],
+        backgroundColor: "#7a7a7a",
+        hoverBackgroundColor: "#6a6a6a",
+        borderRadius: 6,
+        borderWidth: 0,
         minBarLength: 10,
-        hoverOffset: 4,
       },
     ],
   };
 
-  new Chart(ctx, { type: "bar", data });
+  new Chart(ctx, {
+    type: "bar",
+    data,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+    },
+  });
 }
 
 // -------------------- Timestamp demo fetch (kept) --------------------
@@ -173,8 +186,6 @@ async function getUserData(userInput) {
       return;
     }
 
-    // Draw chart and fill UI
-    createChart(userData);
 
     const channel = userData.items[0];
     const userVideos = channel.id;
@@ -370,16 +381,18 @@ async function getVideoData(videoId) {
   let videoData = await (await fetch(videoDataURL)).json();
   if (!videoData.items || !videoData.items[0]) return;
 
+  var stats = videoData.items[0].statistics;
+
   var viewCount = document.querySelector("#viewCountVideo");
   var commentCount = document.querySelector("#uploadCountVideo");
   var likeCount = document.querySelector("#likesVideo");
 
-  var formattedViewCount = shortNum(parseInt(videoData.items[0].statistics.viewCount));
-  if (viewCount) viewCount.textContent = formattedViewCount;
-  if (commentCount)
-    commentCount.textContent = shortNum(parseInt(videoData.items[0].statistics.commentCount));
-  if (likeCount)
-    likeCount.textContent = shortNum(parseInt(videoData.items[0].statistics.likeCount));
+  if (viewCount) viewCount.textContent = shortNum(parseInt(stats.viewCount || 0));
+  if (commentCount) commentCount.textContent = shortNum(parseInt(stats.commentCount || 0));
+  if (likeCount) likeCount.textContent = shortNum(parseInt(stats.likeCount || 0));
+
+  // cria/atualiza o gráfico com dados do vídeo
+  createVideoChart(videoData);
 }
 
 // --- NEW: helper to save searched users to history/localStorage ---
