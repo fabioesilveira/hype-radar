@@ -108,8 +108,17 @@ h1 {
 
 .first1 {
   margin-bottom: 30px;
-  margin-top: 40px;
+  margin-top: 35px;
   font-size: 16px;
+  font-family: "press start 2p", "consolas", "sans-serif";
+  color: #1c33d6;
+}
+
+.first12 {
+  margin-bottom: 30px;
+  margin-top: 35px;
+  font-size: 16px;
+  margin-top: 45px;
   font-family: "press start 2p", "consolas", "sans-serif";
   color: #1c33d6;
 }
@@ -189,9 +198,71 @@ h1 {
 }
 
 .trendingData {
-  margin-top: 60px;
+  margin-top: 55px;
+}
+
+.search-history {
+  margin-top: 55px;
 }
 
 .canvas canvas {
   width: 100% !important;
+}
+
+.canvas {
+  margin-top: 60px;
+}
+
+.input-search {
+  margin-top: 8px;
+}
+
+.channel-overview {
+  display: flex;
+  align-items: center;
+}
+
+.channel-overview .media-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.channel-overview .title {
+  margin-bottom: 2px !important;
+}
+
+.channel-overview .subtitle {
+  margin-top: 0 !important;
+}
+
+.choose-video{
+  margin-top: 8px;
+}
+
+.selected-video-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.selected-video-row .media-left {
+  flex-shrink: 0;
+}
+
+.selected-video-row .media-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.title-video {
+  margin: 0 !important;
+  line-height: 1.3;
+}
+
+.selected-video-row .media-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
