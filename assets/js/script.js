@@ -9,6 +9,8 @@ var resetHistory = document.getElementById("resetHistory");
 var userVideoList = document.querySelector("#recentUploadsYT");
 const canvas = document.querySelector(".canvas");
 
+
+
 // -------------------- Chart.js render --------------------
 function createVideoChart(videoData) {
   if (!videoData || !videoData.items || videoData.items.length === 0) {
@@ -20,28 +22,28 @@ function createVideoChart(videoData) {
     canvas.classList.replace("hide", "show");
   }
 
-  // limpa o chart anterior
   canvas.innerHTML = "";
 
   const newCanvas = document.createElement("canvas");
   newCanvas.id = "videoStatsChart";
+  newCanvas.style.width = "100%";
   canvas.append(newCanvas);
 
   const ctx = document.getElementById("videoStatsChart").getContext("2d");
   const stats = videoData.items[0].statistics;
 
+  const views = parseInt(stats.viewCount || 0);
+  const likes = parseInt(stats.likeCount || 0);
+  const comments = parseInt(stats.commentCount || 0);
+
   const data = {
-    labels: ["Views", "Likes", "Comments"],
+    labels: ["VIEWS", "LIKES", "COMMENTS"],
     datasets: [
       {
         label: "Video Stats",
-        data: [
-          parseInt(stats.viewCount || 0),
-          parseInt(stats.likeCount || 0),
-          parseInt(stats.commentCount || 0),
-        ],
-        backgroundColor: "#7a7a7a",
-        hoverBackgroundColor: "#6a6a6a",
+        data: [views, likes, comments],
+        backgroundColor: "#1c33d6",
+        hoverBackgroundColor: "#1c33d6",
         borderRadius: 6,
         borderWidth: 0,
         minBarLength: 10,
@@ -49,20 +51,75 @@ function createVideoChart(videoData) {
     ],
   };
 
+  const valuePlugin = {
+    id: "valuePlugin",
+    afterDraw(chart) {
+      const { ctx } = chart;
+      const meta = chart.getDatasetMeta(0);
+
+      ctx.save();
+
+      meta.data.forEach((bar, index) => {
+        const value = shortNum(chart.data.datasets[0].data[index]);
+
+        const x = bar.x;
+        const y = chart.scales.x.bottom + 5; // agora com espaço real embaixo
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#000";
+        ctx.font = "bold 16px sans-serif";
+        ctx.fillText(value, x, y);
+      });
+
+      ctx.restore();
+    }
+  };
+
   new Chart(ctx, {
     type: "bar",
     data,
+    plugins: [valuePlugin],
     options: {
       responsive: true,
-      maintainAspectRatio: false,
+      layout: {
+        padding: {
+          bottom: 40, // espaço para os números aparecerem
+        },
+      },
       plugins: {
         legend: {
           display: false,
         },
       },
+      scales: {
+        x: {
+          ticks: {
+            color: "#0000ff",
+            font: {
+              size: 13,
+              weight: "400",
+            },
+            padding: 12,
+          },
+          grid: {
+            display: false,
+          },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "#777",
+          },
+          grid: {
+            color: "rgba(0,0,0,0.08)",
+          },
+        },
+      },
     },
   });
 }
+
 
 // -------------------- Timestamp demo fetch (kept) --------------------
 fetch(fetchURL)
@@ -381,17 +438,6 @@ async function getVideoData(videoId) {
   let videoData = await (await fetch(videoDataURL)).json();
   if (!videoData.items || !videoData.items[0]) return;
 
-  var stats = videoData.items[0].statistics;
-
-  var viewCount = document.querySelector("#viewCountVideo");
-  var commentCount = document.querySelector("#uploadCountVideo");
-  var likeCount = document.querySelector("#likesVideo");
-
-  if (viewCount) viewCount.textContent = shortNum(parseInt(stats.viewCount || 0));
-  if (commentCount) commentCount.textContent = shortNum(parseInt(stats.commentCount || 0));
-  if (likeCount) likeCount.textContent = shortNum(parseInt(stats.likeCount || 0));
-
-  // cria/atualiza o gráfico com dados do vídeo
   createVideoChart(videoData);
 }
 
