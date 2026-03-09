@@ -63,18 +63,26 @@ function createVideoChart(videoData) {
         const value = shortNum(chart.data.datasets[0].data[index]);
 
         const x = bar.x;
-        const y = chart.scales.x.bottom + 5; // agora com espaço real embaixo
+        const y = chart.scales.x.bottom + (window.innerWidth <= 480 ? 2 : 5);
 
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "#000";
-        ctx.font = "bold 16px sans-serif";
+        ctx.font =
+          window.innerWidth <= 480
+            ? "bold 10px sans-serif"
+            : window.innerWidth <= 768
+              ? "bold 12px sans-serif"
+              : "bold 16px sans-serif";
+
         ctx.fillText(value, x, y);
       });
 
       ctx.restore();
     }
   };
+
+
 
   new Chart(ctx, {
     type: "bar",
@@ -97,10 +105,10 @@ function createVideoChart(videoData) {
           ticks: {
             color: "#0000ff",
             font: {
-              size: window.innerWidth <= 480 ? 9 : window.innerWidth <= 768 ? 10 : 12,
-              weight: "320",
+              size: window.innerWidth <= 480 ? 8 : window.innerWidth <= 768 ? 10 : 12,
+              weight: "400",
             },
-            padding: window.innerWidth <= 480 ? 6 : 12,
+            padding: window.innerWidth <= 480 ? 4 : window.innerWidth <= 768 ? 6 : 10,
           },
           grid: {
             display: false,

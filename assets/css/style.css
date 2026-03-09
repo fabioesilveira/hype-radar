@@ -299,7 +299,7 @@ h1 {
 }
 
 .first1,
-.first12{
+.first12 {
   margin-left: 12px;
 }
 
@@ -426,4 +426,51 @@ hr {
     width: 100% !important;
     height: 100% !important;
   }
+}
+
+@media (max-width: 768px) {
+  #recentUploadsYT .button {
+    white-space: normal;
+    word-break: break-word;
+    text-align: left;
+    justify-content: flex-start;
+    height: auto;
+    min-height: 48px;
+    padding: 10px 12px;
+    line-height: 1.4;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #recentUploadsYT .button {
+    font-size: 13px;
+    min-height: 44px;
+    padding: 9px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .trendingData .media {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .trendingData .media-left {
+    order: 1;
+  }
+
+  .trendingData .media-right {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .trendingData .media-content {
+    order: 3;
+    flex: 0 0 100%;
+    width: 100%;
+    margin-top: 8px;
+  }
+
 }
