@@ -8,19 +8,16 @@
 
 .page-content {
   max-width: 1300px;
-  /* controls how wide the page can get */
   margin: 0 auto;
-  /* centers it horizontally */
   background-color: white
-    /* optional: keeps the rest of the background visible */
+
 }
 
 .canvas {
   width: 1000px;
-  /* or 80%, or any size you prefer */
   height: 500px;
   margin: 0 auto;
-  /* centers it horizontally */
+
 }
 
 .card {
@@ -56,7 +53,6 @@ h1 {
   align-items: center;
 }
 
-/* Style for the modal */
 .modal {
   display: none;
   position: fixed;
@@ -153,7 +149,6 @@ h1 {
 .brand-row {
   display: flex;
   align-items: center;
-  /* centraliza verticalmente */
   gap: 12px;
 }
 
@@ -165,7 +160,6 @@ h1 {
 .trendingData .media {
   display: flex;
   align-items: center;
-  /* centraliza verticalmente */
   gap: 14px;
 
 }
@@ -178,7 +172,6 @@ h1 {
   flex: 1;
   display: flex;
   align-items: center;
-  /* title alinhado com a imagem */
 }
 
 .trending-title {
@@ -485,4 +478,13 @@ hr {
 #recentUploadsYT button:disabled {
   cursor: default;
   opacity: 0.9;
+}
+
+#searchHistory button.active-history,
+#searchHistory button:disabled {
+  background-color: #d1d1d1;
+  color: #333;
+  border-color: #bdbdbd;
+  opacity: 1;
+  cursor: default;
 }

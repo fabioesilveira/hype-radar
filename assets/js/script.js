@@ -179,12 +179,11 @@ if (searchInputEl) {
         return;
       }
       await getUserData(user);
-      addUserToHistory(user); // <-- NEW
+      addUserToHistory(user); 
     }
   });
 }
 
-// If you still have a <form id="search-form">, prevent default submit
 const searchFormEl = document.querySelector("#search-form");
 if (searchFormEl) {
   searchFormEl.addEventListener("submit", async (e) => {
@@ -197,7 +196,7 @@ if (searchFormEl) {
       return;
     }
     await getUserData(user);
-    addUserToHistory(user); // <-- NEW
+    addUserToHistory(user);
   });
 }
 
@@ -209,7 +208,7 @@ if (searchBtn && searchInputEl) {
       return;
     }
     await getUserData(user);
-    addUserToHistory(user); // <-- NEW
+    addUserToHistory(user); 
   });
 }
 
@@ -227,7 +226,6 @@ async function getUserData(userInput) {
     .toLowerCase()
     .replace(/\s+/g, "");     // remove all spaces
 
-  // 1) Try legacy username route using normalized version
   const byUsername = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername=${encodeURIComponent(
     normalizedUsername
   )}&key=${apiKey}`;
@@ -380,7 +378,7 @@ async function getTrendingData() {
   }
 }
 
-// -------------------- Recent uploads list (kept) --------------------
+// -------------------- Recent uploads list --------------------
 async function getUserVideoList(userVideos) {
   const userVideosURl = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${userVideos}&part=snippet,id&order=date&maxResults=10`;
   let userVideoData = await (await fetch(userVideosURl)).json();
@@ -452,7 +450,7 @@ function init() {
   if (searchBar) searchBar.value = defaultUser;
 
   getUserData(defaultUser); // draw chart on load under the first container
-  getTrendingData();        // optional: keep trending section
+  getTrendingData();        
 
   // Search History (load/display) remains separate — not triggered by SEARCH
   var users = readUsersFromStorage();
@@ -477,21 +475,33 @@ async function getVideoData(videoId) {
   createVideoChart(videoData);
 }
 
-// --- NEW: helper to save searched users to history/localStorage ---
+// helper to save searched users to history/localStorage ---
 function addUserToHistory(user) {
   var users = readUsersFromStorage();
   users.push(user);
   saveUsersToStorage(users);
   printSearchHistory(users);
 }
-// --------------------------------------------------
 
 if (searchHistory) {
   searchHistory.addEventListener("click", function (event) {
     event.preventDefault();
-    var element = event.target;
-    var historyUser = element.innerHTML;
+    const element = event.target;
+
+    if (!element || element.tagName !== "BUTTON") return;
+
+    const allButtons = searchHistory.querySelectorAll("button");
+    allButtons.forEach((btn) => {
+      btn.classList.remove("active-history");
+      btn.disabled = false;
+    });
+
+    element.classList.add("active-history");
+    element.disabled = true;
+
+    const historyUser = element.innerHTML;
     getUserData(historyUser);
+
     if (canvas) canvas.classList.replace("hide", "show");
   });
 }
@@ -531,6 +541,12 @@ function printSearchHistory(users) {
     buttonEl.classList.add("button", "is-fullwidth", "is-light");
     buttonEl.setAttribute("type", "button");
     buttonEl.innerHTML = `${users[i]}`;
+
+    if (i === 0) {
+      buttonEl.classList.add("active-history");
+      buttonEl.disabled = true;
+    }
+
     searchHistory.append(buttonEl);
   }
 }
