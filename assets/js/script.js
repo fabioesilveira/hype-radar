@@ -36,6 +36,18 @@ function createVideoChart(videoData) {
   const likes = parseInt(stats.likeCount || 0);
   const comments = parseInt(stats.commentCount || 0);
 
+  const chartWidth = canvas.clientWidth;
+  const isSmallMobile = chartWidth <= 480;
+  const isMobile = chartWidth <= 768;
+
+  const xTickFontSize = isSmallMobile ? 6 : isMobile ? 8 : 12;
+  const xTickPadding = isSmallMobile ? 3 : isMobile ? 5 : 10;
+  const valueFont = isSmallMobile
+    ? "10px sans-serif"
+    : isMobile
+      ? "12px sans-serif"
+      : "16px sans-serif";
+
   const data = {
     labels: ["VIEWS", "LIKES", "COMMENTS"],
     datasets: [
@@ -44,7 +56,7 @@ function createVideoChart(videoData) {
         data: [views, likes, comments],
         backgroundColor: "#1c33d6",
         hoverBackgroundColor: "#1c33d6",
-        borderRadius: 6,
+        borderRadius: 4,
         borderWidth: 0,
         minBarLength: 10,
       },
@@ -63,17 +75,12 @@ function createVideoChart(videoData) {
         const value = shortNum(chart.data.datasets[0].data[index]);
 
         const x = bar.x;
-        const y = chart.scales.x.bottom + (window.innerWidth <= 480 ? 2 : 5);
+        const y = chart.scales.x.bottom + (isSmallMobile ? 2 : 5);
 
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "#000";
-        ctx.font =
-          window.innerWidth <= 480
-            ? "bold 10px sans-serif"
-            : window.innerWidth <= 768
-              ? "bold 12px sans-serif"
-              : "bold 16px sans-serif";
+        ctx.font = valueFont;
 
         ctx.fillText(value, x, y);
       });
@@ -82,17 +89,16 @@ function createVideoChart(videoData) {
     }
   };
 
-
-
   new Chart(ctx, {
     type: "bar",
     data,
     plugins: [valuePlugin],
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       layout: {
         padding: {
-          bottom: 40,
+          bottom: 30,
         },
       },
       plugins: {
@@ -105,10 +111,10 @@ function createVideoChart(videoData) {
           ticks: {
             color: "#0000ff",
             font: {
-              size: window.innerWidth <= 480 ? 8 : window.innerWidth <= 768 ? 10 : 12,
+              size: xTickFontSize,
               weight: "400",
             },
-            padding: window.innerWidth <= 480 ? 4 : window.innerWidth <= 768 ? 6 : 10,
+            padding: xTickPadding,
           },
           grid: {
             display: false,
@@ -288,8 +294,18 @@ if (userVideoList) {
     event.preventDefault();
     const element = event.target;
 
-    // Make sure we clicked a button
     if (!element || element.tagName !== "BUTTON") return;
+
+    // remove seleção e reativa todos
+    const allButtons = userVideoList.querySelectorAll("button");
+    allButtons.forEach((btn) => {
+      btn.classList.remove("active-video");
+      btn.disabled = false;
+    });
+
+    // adiciona seleção e desativa o atual
+    element.classList.add("active-video");
+    element.disabled = true;
 
     const videoSelected = element.innerHTML;
     const idSelected = element.id;
@@ -381,20 +397,30 @@ async function getUserVideoList(userVideos) {
     const title = videoItem.snippet.title;
     const id = videoItem.id.videoId;
 
+    if (!id) continue;
+
     const buttonEl = document.createElement("button");
     buttonEl.classList.add("button", "is-light", "is-fullwidth");
     buttonEl.innerHTML = title;
     buttonEl.setAttribute("id", id);
+    buttonEl.setAttribute("type", "button");
+
+    // marca o primeiro vídeo como selecionado
+    if (i === 0) {
+      buttonEl.classList.add("active-video");
+      buttonEl.disabled = true;
+    }
+
     userVideoList.append(buttonEl);
 
-    // Store the first video to auto-fill the main section
-    if (i === 0 && id) {
+    // guarda o primeiro vídeo para preencher a seção principal
+    if (i === 0) {
       firstVideoId = id;
       firstVideoTitle = title;
     }
   }
 
-  // Auto-select the first video (same behavior as clicking its button)
+  // auto-seleciona o primeiro vídeo
   if (firstVideoId && firstVideoTitle) {
     const videoLink = getVideoLink(firstVideoId);
     getVideoData(firstVideoId);
@@ -410,7 +436,9 @@ async function getUserVideoList(userVideos) {
 
     const thumbnailUrl = `https://i.ytimg.com/vi/${firstVideoId}/default.jpg`;
     const videoThumbnailEl = document.querySelector("#videoThumbnail");
-    if (videoThumbnailEl) videoThumbnailEl.setAttribute("src", thumbnailUrl);
+    if (videoThumbnailEl) {
+      videoThumbnailEl.setAttribute("src", thumbnailUrl);
+    }
   }
 }
 
