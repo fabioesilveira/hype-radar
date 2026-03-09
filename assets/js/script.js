@@ -84,7 +84,7 @@ function createVideoChart(videoData) {
       responsive: true,
       layout: {
         padding: {
-          bottom: 40, 
+          bottom: 40,
         },
       },
       plugins: {
@@ -97,10 +97,10 @@ function createVideoChart(videoData) {
           ticks: {
             color: "#0000ff",
             font: {
-              size: 12,
+              size: window.innerWidth <= 480 ? 9 : window.innerWidth <= 768 ? 10 : 12,
               weight: "320",
             },
-            padding: 12,
+            padding: window.innerWidth <= 480 ? 6 : 12,
           },
           grid: {
             display: false,
