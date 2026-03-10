@@ -412,7 +412,7 @@ hr {
     
     height: 260px;
     max-width: 1400px;
-    margin-top: 70px;
+    margin-top: 60px;
     overflow: hidden;
   }
 
@@ -490,5 +490,13 @@ hr {
 @media (max-width: 480px) {
   .selected-video-row + .canvas {
     margin-top: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-header > .first1 {
+    width: 100%;
+    text-align: center;
+    margin-left: 0;
   }
 }
