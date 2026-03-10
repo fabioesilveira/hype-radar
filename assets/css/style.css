@@ -199,7 +199,7 @@ h1 {
 }
 
 .canvas {
-  margin-top: 60px;
+  margin-top: 100px;
 }
 
 .input-search {
@@ -409,16 +409,14 @@ hr {
 @media (max-width: 768px) {
   .canvas {
     width: 100%;
-    max-width: 100%;
+    
     height: 260px;
-    margin-top: 30px;
+    max-width: 1400px;
+    margin-top: 70px;
     overflow: hidden;
   }
 
-  .canvas canvas {
-    width: 100% !important;
-    height: 100% !important;
-  }
+  
 }
 
 @media (max-width: 768px) {
@@ -487,4 +485,10 @@ hr {
   border-color: #bdbdbd;
   opacity: 1;
   cursor: default;
+}
+
+@media (max-width: 480px) {
+  .selected-video-row + .canvas {
+    margin-top: 25px;
+  }
 }
