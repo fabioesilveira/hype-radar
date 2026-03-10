@@ -73,7 +73,6 @@ h1 {
   width: 80%;
 }
 
-/* Style for the close button */
 .close {
   color: #aaaaaa;
   float: right;
@@ -98,7 +97,6 @@ h1 {
 
 .trending-title {
   font-size: 18px !important;
-  /* smaller text */
   line-height: 1.2;
 }
 
