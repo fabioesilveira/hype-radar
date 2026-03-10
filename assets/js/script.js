@@ -43,7 +43,7 @@ function createVideoChart(videoData) {
   const xTickFontSize = isSmallMobile ? 6 : isMobile ? 8 : 12;
   const xTickPadding = isSmallMobile ? 3 : isMobile ? 5 : 10;
   const valueFont = isSmallMobile
-    ? "10px sans-serif"
+    ? "12px sans-serif"
     : isMobile
       ? "12px sans-serif"
       : "16px sans-serif";
@@ -56,7 +56,7 @@ function createVideoChart(videoData) {
         data: [views, likes, comments],
         backgroundColor: "#1c33d6",
         hoverBackgroundColor: "#1c33d6",
-        borderRadius: 4,
+        borderRadius: 1,
         borderWidth: 0,
         minBarLength: 10,
       },
