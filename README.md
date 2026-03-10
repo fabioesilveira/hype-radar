@@ -1,4 +1,5 @@
 # Hype Radar  
+
 Hype Radar is a media-tracking web app that fetches data from the YouTube API to display user channel statistics and activity.
 It allows individuals or organizations to monitor their YouTube presence by tracking metrics such as views, uploads, subscribers, likes, and general engagement trends.
 
@@ -10,19 +11,28 @@ This tool helps users understand how their content or brand is being perceived b
 
 ## Features
 
-### Keyword Trend Search  
-- Enter a keyword and fetch trend-related data instantly.  
-- Displays data using clean Bulma-styled cards.
+### Channel Search
+- Search any YouTube channel by username.
+- Instantly fetch channel statistics such as views, subscribers, and upload count.
 
-### Dynamic Charts (Chart.js)  
-- Renders real-time charts based on API responses.  
-- Smooth chart animations and responsive resizing.  
-- Supports line charts, bar charts, or future custom charts.
+### Recent Uploads Explorer
+- Displays the most recent videos from the selected channel.
+- Allows users to select a video and instantly view its statistics.
 
-### Vanilla JavaScript Architecture  
-- No frameworks required — fast, simple, and easy to deploy.  
-- DOM manipulation done manually for full control.  
-- Modular JS functions for fetching, rendering, and UI updates.
+### Dynamic Charts (Chart.js)
+- Visualizes video performance using responsive charts.
+- Displays views, likes, and comments in an easy-to-read format.
+- Automatically updates when a different video is selected.
+
+### Trending Videos
+- Displays the current Top 5 trending YouTube videos in the United States.
+- Provides quick access links to watch the videos.
+
+### Search History
+- Saves recently searched channels using Local Storage.
+- Allows users to quickly revisit previously viewed channels.
+
+---
 
 ## Tech Stack
 
@@ -35,12 +45,6 @@ This tool helps users understand how their content or brand is being perceived b
 - **Google fonts** 
 
 ---
-
-## Credits
-
-Fabio Silveira
-GitHub: @fabioesilveira
-
 
 ## Deployed Site
 
