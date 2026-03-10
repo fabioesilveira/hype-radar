@@ -214,7 +214,6 @@ if (searchBtn && searchInputEl) {
 
 // -------------------- Fetch channel data (with fallback by channelId) --------------------
 async function getUserData(userInput) {
-  // 🔹 Normalize input: trim, drop leading "@", lowercase, remove spaces
   const rawInput = (userInput || "").trim();
   if (!rawInput) {
     showErrorModal("Please type a YouTube username or channel name.");
@@ -233,7 +232,6 @@ async function getUserData(userInput) {
   try {
     let userData = await (await fetch(byUsername)).json();
 
-    // 2) If not found, search for a channel and then fetch by id (using original text, with spaces)
     if (!userData || !userData.items || userData.items.length === 0) {
       const searchEndpoint = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=1&q=${encodeURIComponent(
         rawInput
@@ -452,7 +450,7 @@ function init() {
   getUserData(defaultUser); // draw chart on load under the first container
   getTrendingData();        
 
-  // Search History (load/display) remains separate — not triggered by SEARCH
+  // Search History (load/display) remains separate not triggered by SEARCH
   var users = readUsersFromStorage();
   if (users.length === 0) {
     users.push(defaultUser);

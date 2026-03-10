@@ -3,7 +3,7 @@
 Hype Radar is a media-tracking web app that fetches data from the YouTube API to display user channel statistics and activity.
 It allows individuals or organizations to monitor their YouTube presence by tracking metrics such as views, uploads, subscribers, likes, and general engagement trends.
 
-This tool helps users understand how their content or brand is being perceived by the public. By visualizing real-time YouTube data, Hype Radar delivers clear insights into channel growth, audience interaction, and overall media impact — all through a lightweight interface built with Vanilla JavaScript, HTML, CSS, Bulma, and Chart.js.
+This tool helps users understand how their content or brand is being perceived by the public. By visualizing real-time YouTube data, Hype Radar delivers clear insights into channel growth, audience interaction, and overall media impact. Interface built with Vanilla JavaScript, HTML, CSS, Bulma, and Chart.js.
 
 [Live Demo Link](https://fabioesilveira.github.io/hype-radar/)
 
